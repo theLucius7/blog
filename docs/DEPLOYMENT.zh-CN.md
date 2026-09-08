@@ -58,7 +58,7 @@ pnpm build
 pnpm preview
 ```
 
-构建会排除草稿，生成 `dist/` 中的静态页面及 Pagefind 搜索索引。用预览地址检查标题、图片、公式、链接和搜索；再次修改后重新运行 `pnpm build`。`pnpm lint` 不会修改文件，需要自动修复时运行 `pnpm lint:fix` 并检查其改动。
+构建会先清除 Astro 内容缓存，再排除草稿并生成 `dist/` 中的静态页面及 Pagefind 搜索索引，避免已删除文章残留。用预览地址检查标题、图片、公式、链接和搜索；再次修改后重新运行 `pnpm build`。`pnpm lint` 不会修改文件，需要自动修复时运行 `pnpm lint:fix` 并检查其改动。
 
 ### 4. 提交并推送
 
@@ -89,7 +89,7 @@ git pull --ff-only
 
 ## 自动部署配置
 
-CI 使用 Node.js 22、指定版本的 pnpm 与锁文件，依次执行 `pnpm lint`、`pnpm check`、`pnpm build`。PR 检查通过后，合并到 `main` 会触发发布工作流：再次检查并完整构建，上传构建产物，再部署到 GitHub Pages。
+CI 使用 Node.js 22、指定版本的 pnpm 与锁文件，依次执行 `pnpm lint`、`pnpm check`、`pnpm build`。PR 检查通过后，合并到 `main` 会触发发布工作流：再次检查并完整构建，上传构建产物，再部署到 GitHub Pages。发布不复用 Astro 内容缓存，以免删除文章后仍生成旧内容。
 
 在 [Settings → Pages](https://github.com/theLucius7/blog/settings/pages) 中，发布来源应为 **GitHub Actions**，Custom domain 为 `blog.lucius7.cn`。只需要提交源码，GitHub Pages 不需要单独维护 `gh-pages` 分支。
 
