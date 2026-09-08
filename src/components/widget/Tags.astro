@@ -20,6 +20,7 @@ interface Props {
 const className = Astro.props.class;
 const style = Astro.props.style;
 ---
+{tags.length > 0 && (
 <WidgetLayout name={i18n(I18nKey.tags)} id="tags" isCollapsed={isCollapsed} collapsedHeight={COLLAPSED_HEIGHT} class={className} style={style}>
     <div class="flex gap-2 flex-wrap">
         {tags.map(t => (
@@ -29,3 +30,4 @@ const style = Astro.props.style;
         ))}
     </div>
 </WidgetLayout>
+)}
