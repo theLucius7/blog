@@ -36,7 +36,7 @@
     "@tailwindcss/typography": "^0.5.20",
     "astro": "5.18.2",
     "astro-expressive-code": "^0.44.2",
-    "astro-icon": "^1.1.5",
+    "astro-icon": "^1.2.0",
     "hastscript": "^9.0.1",
     "katex": "^0.16.47",
     "markdown-it": "^14.3.1",
@@ -57,7 +57,7 @@
     "sanitize-html": "^2.17.7",
     "sharp": "^0.34.5",
     "stylus": "^0.64.0",
-    "svelte": "^5.39.8",
+    "svelte": "^5.57.0",
     "tailwindcss": "^3.4.19",
     "typescript": "^5.9.3",
     "unist-util-visit": "^5.1.0"
