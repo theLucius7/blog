@@ -75,4 +75,4 @@ $$
 - [KaTeX 支持的命令](https://katex.org/docs/supported.html)。
 - [KaTeX 官方横向滚动样式](https://katex.org/docs/issues.html#css-customization)：项目在 `src/styles/markdown.css` 中应用。
 
-现有 [Markdown 示例文章](https://thelucius7.github.io/meow/posts/markdown/) 可查看行内公式、积分和长公式的显示效果。
+现有 [Markdown 示例文章](https://blog.lucius7.cn/posts/markdown/) 可查看行内公式、积分和长公式的显示效果。
