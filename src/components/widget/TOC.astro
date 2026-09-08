@@ -1,7 +1,8 @@
 ---
 import type { MarkdownHeading } from "astro";
+import { getLocaleFromPath } from "@/i18n/locales";
 import { siteConfig } from "../../config";
-import { url } from "../../utils/url-utils";
+import { localeUrl } from "../../utils/url-utils";
 
 interface Props {
 	class?: string;
@@ -16,7 +17,10 @@ for (const heading of headings) {
 }
 
 const className = Astro.props.class;
-const isPostsRoute = Astro.url.pathname.startsWith(url("/posts/"));
+const locale = getLocaleFromPath(Astro.url.pathname);
+const isPostsRoute = Astro.url.pathname.startsWith(
+	localeUrl(locale, "/posts/"),
+);
 
 const removeTailingHash = (text: string) => {
 	let lastIndexOfHash = text.lastIndexOf("#");

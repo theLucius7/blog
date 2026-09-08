@@ -41,11 +41,11 @@ pnpm install --frozen-lockfile
 ### 2. 编辑与预览
 
 ```sh
-pnpm new-post my-first-post
+pnpm new-post zh/my-first-post
 pnpm dev
 ```
 
-编辑 `src/content/posts/my-first-post.md`，默认是 `draft: true`。已有文章直接编辑对应文件，无需重新运行创建命令。图片、目录式文章和字段说明见 [写作指南](WRITING.zh-CN.md)。
+编辑 `src/content/posts/zh/my-first-post.md`，默认是 `draft: true`。已有文章直接编辑对应文件，无需重新运行创建命令。图片、目录式文章和字段说明见 [写作指南](WRITING.zh-CN.md)。
 
 ### 3. 检查正式发布效果
 
@@ -67,12 +67,12 @@ pnpm preview
 ```sh
 git status
 git diff
-git add src/content/posts/my-first-post.md
+git add src/content/posts/zh/my-first-post.md
 git commit -m "docs: 发布第一篇文章"
 git push -u origin post/my-first-post
 ```
 
-目录式文章可以暂存整个文章目录，例如 `git add src/content/posts/my-first-post/`。站点配置或其他资源有修改时，明确加入对应路径。不要提交构建产物或依赖目录。
+目录式文章可以暂存整个文章目录，例如 `git add src/content/posts/zh/my-first-post/`。站点配置或其他资源有修改时，明确加入对应路径。不要提交构建产物或依赖目录。
 
 ### 5. 合并 PR 并检查线上
 
@@ -89,7 +89,7 @@ git pull --ff-only
 
 ## 自动部署配置
 
-CI 使用 Node.js 22、指定版本的 pnpm 与锁文件，依次执行 `pnpm lint`、`pnpm check`、`pnpm build`。PR 检查通过后，合并到 `main` 会触发发布工作流：再次检查并完整构建，上传构建产物，再部署到 GitHub Pages。发布不复用 Astro 内容缓存，以免删除文章后仍生成旧内容。
+CI 使用 Node.js 22、指定版本的 pnpm 与锁文件，依次执行 `pnpm lint`、`pnpm check`、`pnpm test:i18n`、`pnpm build`。PR 检查通过后，合并到 `main` 会触发发布工作流：再次检查并完整构建，上传构建产物，再部署到 GitHub Pages。发布不复用 Astro 内容缓存，以免删除文章后仍生成旧内容。
 
 在 [Settings → Pages](https://github.com/xw7qwq/nfuwari/settings/pages) 中，发布来源应为 **GitHub Actions**，Custom domain 为 `blog.lucius7.cn`。只需要提交源码，GitHub Pages 不需要单独维护 `gh-pages` 分支。
 
@@ -101,7 +101,7 @@ CI 使用 Node.js 22、指定版本的 pnpm 与锁文件，依次执行 `pnpm li
 site: "https://blog.lucius7.cn/",
 ```
 
-独立域名使用根路径，不设置 `base`，文章地址为 `/posts/文章名/`。仓库名称为 `nfuwari`，独立域名也不需要 `/nfuwari/` 路径前缀。
+独立域名不设置 `base`；根入口跳转 `/zh/`，中文文章地址为 `/zh/posts/文章名/`，英文为 `/en/posts/文章名/`。语言前缀来自 Astro i18n 路由，不是 `base`。仓库名称为 `nfuwari`，独立域名也不需要 `/nfuwari/` 路径前缀。
 
 `public/CNAME` 记录目标域名；使用 Actions 发布时，实际绑定以 GitHub Pages 设置为准，不能只修改此文件。更换域名需要同步修改 `site`、`public/CNAME`、Pages 绑定和 DNS/CDN 配置。当前域名绑定到 `xw7qwq/nfuwari`，不应同时绑定另一个仓库。
 

@@ -1,4 +1,5 @@
 ---
+import { getLocaleFromPath } from "@/i18n/locales";
 
 import I18nKey from "../../i18n/i18nKey";
 import { i18n } from "../../i18n/translation";
@@ -7,7 +8,8 @@ import { getTagUrl } from "../../utils/url-utils";
 import ButtonTag from "../control/ButtonTag.astro";
 import WidgetLayout from "./WidgetLayout.astro";
 
-const tags = await getTagList();
+const locale = getLocaleFromPath(Astro.url.pathname);
+const tags = await getTagList(locale);
 
 const COLLAPSED_HEIGHT = "7.5rem";
 
@@ -21,10 +23,10 @@ const className = Astro.props.class;
 const style = Astro.props.style;
 ---
 {tags.length > 0 && (
-<WidgetLayout name={i18n(I18nKey.tags)} id="tags" isCollapsed={isCollapsed} collapsedHeight={COLLAPSED_HEIGHT} class={className} style={style}>
+<WidgetLayout name={i18n(I18nKey.tags, locale)} id="tags" isCollapsed={isCollapsed} collapsedHeight={COLLAPSED_HEIGHT} class={className} style={style}>
     <div class="flex gap-2 flex-wrap">
         {tags.map(t => (
-            <ButtonTag href={getTagUrl(t.name)} label={`View all posts with the ${t.name.trim()} tag`}>
+            <ButtonTag href={getTagUrl(t.name, locale)} label={locale === "en" ? `View posts tagged ${t.name.trim()}` : `查看带有${t.name.trim()}标签的文章`}>
                 {t.name.trim()}
             </ButtonTag>
         ))}

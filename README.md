@@ -5,15 +5,16 @@
 
 Source for [blog.lucius7.cn](https://blog.lucius7.cn/), built with [Fuwari](https://github.com/saicaca/fuwari) and Astro. Write posts in Markdown, merge them into `main`, and GitHub Actions publishes the site to GitHub Pages. Alibaba Cloud ESA serves the custom domain.
 
-[Writing guide](docs/WRITING.md) · [LaTeX guide](docs/LATEX.md) · [Deployment](docs/DEPLOYMENT.md) · [Contributing](CONTRIBUTING.md) · [Dependency review](docs/DEPENDENCY-REVIEW.md)
+[Writing guide](docs/WRITING.md) · [Bilingual content](docs/I18N.md) · [LaTeX guide](docs/LATEX.md) · [Deployment](docs/DEPLOYMENT.md) · [Contributing](CONTRIBUTING.md) · [Dependency review](docs/DEPENDENCY-REVIEW.md)
 
 ## Current state
 
-As of September 8, 2026, template posts, images, and default profile details have been removed. The site is named "Lucius7's Blog" and its interface remains Chinese. The post directory starts empty; the home page shows an empty state until a public post is added. Posts from the previous AstroPaper blog have not yet been migrated.
+As of September 9, 2026, "Lucius7's Blog" has separate [Chinese](https://blog.lucius7.cn/zh/) and [English](https://blog.lucius7.cn/en/) entry points. Template posts, images, and default profile details have been removed. The post directories start empty; each home page shows an empty state until a public post is added. Posts from the previous AstroPaper blog have not yet been migrated.
 
 | Item | Configuration |
 | --- | --- |
-| Website | [blog.lucius7.cn](https://blog.lucius7.cn/), at the custom domain's root |
+| Website | The root redirects to `/zh/`; Chinese uses `/zh/` and English uses `/en/` |
+| Languages | Separate post directories, lists, category and tag counts, post navigation, RSS, and search |
 | Author | Lucius7 |
 | Avatar | QQ account `3012967200`, through Tencent's HTTPS avatar endpoint |
 | Site icon | `public/icon.svg`, an L7 wordmark |
@@ -48,11 +49,11 @@ Sync the default branch and create a writing branch:
 git switch main
 git pull --ff-only
 git switch -c post/my-first-post
-pnpm new-post my-first-post
+pnpm new-post en/my-first-post
 pnpm dev
 ```
 
-Edit `src/content/posts/my-first-post.md`. The generator defaults to `draft: true` and `lang: zh_CN`. Set `lang` to `en` for an English post. The body starts after the second `---`:
+Edit `src/content/posts/en/my-first-post.md`. The generator defaults to `draft: true`, with `lang: en` for `en/` posts and `lang: zh_CN` for `zh/` posts. The body starts after the second `---`:
 
 ```markdown
 ---
@@ -73,7 +74,9 @@ Write the body here. Inline math looks like $E = mc^2$.
 
 Use the actual publication date. Preview drafts with `pnpm dev`; set `draft: false` when ready to publish. **Production builds and deployments exclude drafts**, so they do not appear in `pnpm preview`.
 
-For posts with several images, use `pnpm new-post my-first-post/index` to keep text and images together. Choose either a single file or a directory; do not create both for the same post. See the [writing guide](docs/WRITING.md) for fields, image paths, URLs, and Markdown, and the [LaTeX guide](docs/LATEX.md) for math.
+For posts with several images, use `pnpm new-post en/my-first-post/index` to keep text and images together. Choose either a single file or a directory; do not create both for the same post. See the [writing guide](docs/WRITING.md) for fields, image paths, URLs, and Markdown, and the [LaTeX guide](docs/LATEX.md) for math.
+
+Chinese posts use `pnpm new-post zh/my-first-post`; omitting the language prefix also defaults to `zh/`. Languages can publish independently. Matching relative paths identify translations automatically; different paths can share a `translationKey`. The language switcher opens the translation when available and otherwise opens the target language's home page. See the [bilingual content guide](docs/I18N.md).
 
 ## Check and publish
 
@@ -92,7 +95,7 @@ Commit the reviewed post:
 
 ```sh
 git status
-git add src/content/posts/my-first-post.md
+git add src/content/posts/en/my-first-post.md
 git commit -m "docs: publish first post"
 git push -u origin post/my-first-post
 ```
@@ -105,9 +108,10 @@ See the [deployment guide](docs/DEPLOYMENT.md) for regular updates, failures, an
 
 | Path | Purpose |
 | --- | --- |
-| `src/content/posts/` | Markdown posts and post-specific images |
-| `src/content/spec/about.md` | About page |
-| `src/config.ts` | Site identity, language, theme, profile, navigation, social links, and post license |
+| `src/content/posts/zh/`, `src/content/posts/en/` | Chinese and English posts with their dedicated images |
+| `src/content/spec/zh/about.md`, `src/content/spec/en/about.md` | Chinese and English About pages |
+| `src/i18n/` | Language identifiers and interface translations |
+| `src/config.ts` | Site identity, theme, profile, navigation, social links, and post license |
 | `src/content/config.ts` | Frontmatter fields and validation |
 | `src/components/Footer.astro` | Footer and registration link |
 | `src/assets/` | Assets processed by Astro; create directories as needed |
@@ -123,7 +127,7 @@ Local profile and banner images use `assets/...` for paths relative to `src/`, o
 
 | Setting in `src/config.ts` | Purpose |
 | --- | --- |
-| `siteConfig.title`, `subtitle`, `lang` | Site name, subtitle, and interface language |
+| `siteConfig.title`, `subtitle` | Site name and subtitle; `/zh/` or `/en/` determines the interface language |
 | `siteConfig.themeColor.hue` | Theme hue, from 0 to 360 |
 | `siteConfig.banner.enable`, `src` | Banner visibility and image |
 | `profileConfig.avatar`, `name`, `bio` | Avatar, author name, and biography |
@@ -134,7 +138,8 @@ Local profile and banner images use `assets/...` for paths relative to `src/`, o
 | Command | Purpose |
 | --- | --- |
 | `pnpm dev` | Development preview, including drafts |
-| `pnpm new-post name` | Create a Markdown draft; accepts `directory/index` |
+| `pnpm new-post zh/name` / `pnpm new-post en/name` | Create a draft for that language; accepts `language/directory/index` and defaults to Chinese when the language is omitted |
+| `pnpm test:i18n` | Test language routes, content isolation, search indexes, and the post generator in a temporary directory |
 | `pnpm lint` | Read-only code checks |
 | `pnpm lint:fix` | Apply supported code and formatting fixes |
 | `pnpm check` | Astro, Svelte, and TypeScript checks; also available as `type-check` |

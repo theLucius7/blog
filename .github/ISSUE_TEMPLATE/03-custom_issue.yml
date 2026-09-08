@@ -6,7 +6,7 @@ body:
     id: location
     attributes:
       label: Post URL
-      placeholder: https://blog.lucius7.cn/posts/post-name/
+      placeholder: https://blog.lucius7.cn/en/posts/post-name/
     validations:
       required: true
   - type: textarea

@@ -7,7 +7,7 @@ body:
     id: location
     attributes:
       label: Page URL or file path
-      placeholder: https://blog.lucius7.cn/posts/post-name/ or a local build command
+      placeholder: https://blog.lucius7.cn/en/posts/post-name/ or a local build command
     validations:
       required: true
   - type: textarea

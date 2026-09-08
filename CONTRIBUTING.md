@@ -14,7 +14,7 @@ pnpm install --frozen-lockfile
 pnpm dev
 ```
 
-Posts live in `src/content/posts/`; site and social link settings live in `src/config.ts`. See the [writing guide](docs/WRITING.md) for fields, images, and drafts, the [deployment guide](docs/DEPLOYMENT.md) for publishing, and the [LaTeX guide](docs/LATEX.md) for math.
+Chinese and English posts live in `src/content/posts/zh/` and `src/content/posts/en/`; site and social link settings live in `src/config.ts`. See the [writing guide](docs/WRITING.md) for fields, images, and drafts, the [deployment guide](docs/DEPLOYMENT.md) for publishing, and the [LaTeX guide](docs/LATEX.md) for math.
 
 ## Submitting changes
 
@@ -40,6 +40,8 @@ Commit `package.json` and `pnpm-lock.yaml` together when changing dependencies. 
 Dependabot PRs need the same review and page validation as other updates. Do not merge solely because a bot opened the PR or CI passed.
 
 Dependabot groups Expressive Code's core, Astro integration, and plugins to avoid mixing renderer versions. For KaTeX updates, confirm that the renderer used by `rehype-katex` matches the direct dependency's CSS and fonts. The post directory is currently empty: use temporary posts to validate changes affecting Markdown, math, or code blocks, then remove the fixtures before committing or publishing.
+
+Changes to language routing, content filtering, search, or the post generator also require `pnpm test:i18n`. Preview both `/zh/` and `/en/`: the same query should return only the active language, a language switch should update the whole interface, and a missing translation should lead to the target language's home page. The test creates posts in a temporary directory without changing real content. See the [bilingual content guide](docs/I18N.md).
 
 ## PR workflow
 

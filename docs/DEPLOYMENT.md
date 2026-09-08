@@ -41,11 +41,11 @@ Handle any existing local changes before switching branches. Use a distinct bran
 ### 2. Edit and preview
 
 ```sh
-pnpm new-post my-first-post
+pnpm new-post en/my-first-post
 pnpm dev
 ```
 
-Edit `src/content/posts/my-first-post.md`, which defaults to `draft: true`. Edit existing posts directly without rerunning the generator. See the [writing guide](WRITING.md) for images, post directories, and fields.
+Edit `src/content/posts/en/my-first-post.md`, which defaults to `draft: true`. Edit existing posts directly without rerunning the generator. See the [writing guide](WRITING.md) for images, post directories, and fields.
 
 ### 3. Check production output
 
@@ -67,12 +67,12 @@ Stop the preview and review the changes:
 ```sh
 git status
 git diff
-git add src/content/posts/my-first-post.md
+git add src/content/posts/en/my-first-post.md
 git commit -m "docs: publish first post"
 git push -u origin post/my-first-post
 ```
 
-For a post directory, stage that directory, for example `git add src/content/posts/my-first-post/`. Explicitly include changed configuration and other assets. Exclude generated output and dependency directories.
+For a post directory, stage that directory, for example `git add src/content/posts/en/my-first-post/`. Explicitly include changed configuration and other assets. Exclude generated output and dependency directories.
 
 ### 5. Merge the PR and check the live site
 
@@ -89,7 +89,7 @@ git pull --ff-only
 
 ## Automatic deployment
 
-CI uses Node.js 22, the pinned pnpm version, and the lockfile, then runs `pnpm lint`, `pnpm check`, and `pnpm build`. Merging a validated PR into `main` triggers another full check and build, uploads the output, and deploys it to GitHub Pages. Deployment does not reuse Astro's content cache, preventing deleted posts from reappearing.
+CI uses Node.js 22, the pinned pnpm version, and the lockfile, then runs `pnpm lint`, `pnpm check`, `pnpm test:i18n`, and `pnpm build`. Merging a validated PR into `main` triggers another full check and build, uploads the output, and deploys it to GitHub Pages. Deployment does not reuse Astro's content cache, preventing deleted posts from reappearing.
 
 In [Settings → Pages](https://github.com/xw7qwq/nfuwari/settings/pages), the source should be **GitHub Actions** and the custom domain should be `blog.lucius7.cn`. Commit source files only; no separate `gh-pages` branch is needed.
 
@@ -101,7 +101,7 @@ In [Settings → Pages](https://github.com/xw7qwq/nfuwari/settings/pages), the s
 site: "https://blog.lucius7.cn/",
 ```
 
-The custom domain uses the root path without `base`, so post URLs look like `/posts/post-name/`. The repository name does not require an `/nfuwari/` prefix on the custom domain.
+The custom domain does not set `base`. The root redirects to `/zh/`; Chinese posts use `/zh/posts/post-name/` and English posts use `/en/posts/post-name/`. These language prefixes come from Astro i18n routing, not `base`. The repository name does not require an `/nfuwari/` prefix on the custom domain.
 
 `public/CNAME` records the domain. With Actions publishing, the actual binding is controlled by GitHub Pages settings; editing this file alone is insufficient. A domain change must update `site`, `public/CNAME`, the Pages binding, and DNS/CDN settings together. The current domain is bound to `xw7qwq/nfuwari` and should not also be bound to another repository.
 

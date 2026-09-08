@@ -1,6 +1,6 @@
 # Writing guide
 
-Posts live in `src/content/posts/` and use standard Markdown (`.md`). MDX is not enabled, and the generator creates only `.md` files. Examples in this guide are documentation; they are not published as blog posts.
+Chinese posts live in `src/content/posts/zh/` and English posts in `src/content/posts/en/` and use standard Markdown (`.md`). MDX is not enabled, and the generator creates only `.md` files. Examples in this guide are documentation; they are not published as blog posts.
 
 See the [README](../README.md#first-run) for installation and the [deployment guide](DEPLOYMENT.md) for publishing.
 
@@ -9,42 +9,46 @@ See the [README](../README.md#first-run) for installation and the [deployment gu
 Run from the repository root:
 
 ```sh
-pnpm new-post my-first-post
+pnpm new-post en/my-first-post
 pnpm dev
 ```
 
-The generator creates `src/content/posts/my-first-post.md` with `draft: true`, `lang: zh_CN`, and the current date. It does not overwrite existing files. Edit the title, date, and body, then open the development URL shown in the terminal. Use `lang: en` for an English post.
+The generator creates `src/content/posts/en/my-first-post.md` with `draft: true`, `lang: en`, and the current date. It does not overwrite existing files. Edit the title, date, and body, then open the development URL shown in the terminal. Preview it at the local `/en/` path.
 
 Use lowercase English letters, numbers, and hyphens in filenames, such as `binary-search-notes`. The `title` field holds the display title; the filename organizes files and determines the default URL.
+
+Use `pnpm new-post zh/my-first-post` for Chinese. Omitting the language prefix defaults to `zh/`. Markdown must be inside `zh/` or `en/`; the build rejects posts directly in `posts/` or other language directories.
+
+Matching relative paths, such as `zh/my-first-post.md` and `en/my-first-post.md`, identify translations automatically. They can publish independently. See [Bilingual content](I18N.md) for pairing, switching languages, and search.
 
 ## Single files and post directories
 
 A short post can use one file:
 
 ```text
-src/content/posts/
+src/content/posts/en/
 └── binary-search-notes.md
 ```
 
-Its URL is `/posts/binary-search-notes/`.
+Its URL is `/en/posts/binary-search-notes/`.
 
 For posts with several images, create a directory:
 
 ```sh
-pnpm new-post binary-search-notes/index
+pnpm new-post en/binary-search-notes/index
 ```
 
 Keep the images alongside the post:
 
 ```text
-src/content/posts/
+src/content/posts/en/
 └── binary-search-notes/
     ├── index.md
     ├── cover.png
     └── steps.png
 ```
 
-This `index.md` also maps to `/posts/binary-search-notes/`. A nested file such as `notes/binary-search.md` maps to `/posts/notes/binary-search/`. Do not keep both `binary-search-notes.md` and `binary-search-notes/index.md`; they produce the same default URL.
+Chinese posts use `/zh/posts/…/`. This English `index.md` also maps to `/en/posts/binary-search-notes/`. A nested file such as `notes/binary-search.md` maps to `/en/posts/notes/binary-search/`. Do not keep both `binary-search-notes.md` and `binary-search-notes/index.md`; they produce the same default URL.
 
 URLs derive from paths, with a trailing `/index` removed. Avoid renaming published files or directories because saved links may break. Changing only `title` does not change the URL.
 
@@ -82,7 +86,8 @@ This example assumes `cover.png` exists in the post directory. Use `image: ''` i
 | `tags` | Array such as `[algorithms, notes]`; use `[]` for no tags |
 | `category` | One category name; an empty string uses the uncategorized group |
 | `draft` | Boolean `true` for drafts or `false` for publication; do not quote it |
-| `lang` | Post language: `zh_CN` for Chinese or `en` for English |
+| `lang` | Optional; inferred from the directory. Chinese accepts `zh_CN`, `zh`, or `zh-CN`; English uses `en`. Conflicts with the directory are rejected |
+| `translationKey` | Optional shared identifier for translations; defaults to the post path without the language prefix |
 
 Do not set `prevTitle`, `prevSlug`, `nextTitle`, or `nextSlug`; the application generates them. Keep YAML indentation consistent, use valid dates, and represent tags as an array rather than a comma-separated string.
 
@@ -90,7 +95,7 @@ Do not set `prevTitle`, `prevSlug`, `nextTitle`, or `nextSlug`; the application 
 
 ### In the post directory
 
-For `src/content/posts/binary-search-notes/index.md`, put `cover.png` and `steps.png` in the same directory:
+For `src/content/posts/en/binary-search-notes/index.md`, put `cover.png` and `steps.png` in the same directory:
 
 ```yaml
 image: ./cover.png
@@ -130,14 +135,14 @@ The site displays `title` automatically, so the body normally starts with a leve
 - First item
 - Second item
 
-[Browse the archive](/archive/)
+[Browse the archive](/en/archive/)
 
 ```python
 print("Hello, world!")
 ```
 ````
 
-Link to posts through their page URLs, such as `/posts/binary-search-notes/`, rather than local Markdown paths.
+Link to posts through their page URLs, such as `/en/posts/binary-search-notes/`, rather than local Markdown paths.
 
 Inline math:
 
@@ -193,6 +198,7 @@ Validate, commit, and merge a PR as described in [Regular writing and publishing
 | No posts on the home page | Expected until the first `draft: false` post is published |
 | Frontmatter validation fails | Check title, valid dates, tag arrays, booleans, and YAML indentation |
 | `Image file not found` or image 404 | Check relative paths, filename case, omitted `/public/` prefix, and whether images are committed |
+| Language or translation-key conflict | Check that the post is inside `zh/` or `en/`, `lang` matches its directory, and its translation key is unique within the language |
 | Two posts have conflicting URLs | Look for both `name.md` and `name/index.md`, or other normalized path collisions |
 | Math appears as raw text | Check whether it is inside a code block and whether display delimiters have their own lines |
 | Search requests a build or finds nothing | Use `pnpm build` and `pnpm preview`; confirm a public post contains the query |

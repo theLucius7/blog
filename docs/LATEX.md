@@ -2,7 +2,7 @@
 
 The project uses Fuwari's `remark-math` and `rehype-katex` configuration to generate math HTML and MathML at build time. KaTeX styles and fonts ship with the site; no additional CDN or browser rendering script is needed.
 
-Use the examples below in Markdown under `src/content/posts/`, after the second frontmatter delimiter (`---`). See the [writing guide](WRITING.md) for new posts, images, and drafts. These examples belong to the documentation and are not published as posts.
+Use the examples below in Markdown under `src/content/posts/zh/` or `src/content/posts/en/`, after the second frontmatter delimiter (`---`). See the [writing guide](WRITING.md) for new posts, images, and drafts. These examples belong to the documentation and are not published as posts.
 
 ## Inline math
 
@@ -76,4 +76,4 @@ $$
 - [KaTeX supported commands](https://katex.org/docs/supported.html).
 - [KaTeX horizontal scrolling styles](https://katex.org/docs/issues.html#css-customization): applied in `src/styles/markdown.css`.
 
-Template example posts have been removed. To experiment, create a draft with `pnpm new-post math-notes`, copy these examples into the body, and preview with `pnpm dev`.
+Template example posts have been removed. To experiment, create a draft with `pnpm new-post en/math-notes`, copy these examples into the body, and preview with `pnpm dev`.

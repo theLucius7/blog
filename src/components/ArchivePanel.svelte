@@ -1,4 +1,7 @@
 <script lang="ts">
+import type { Locale } from "@/i18n/locales";
+export let locale: Locale = "zh";
+
 import { onMount } from "svelte";
 
 import I18nKey from "../i18n/i18nKey";
@@ -30,6 +33,7 @@ interface Group {
 }
 
 let groups: Group[] = [];
+let ready = false;
 
 function formatDate(date: Date) {
 	const month = (date.getMonth() + 1).toString().padStart(2, "0");
@@ -82,10 +86,14 @@ onMount(async () => {
 	groupedPostsArray.sort((a, b) => b.year - a.year);
 
 	groups = groupedPostsArray;
+	ready = true;
 });
 </script>
 
 <div class="card-base px-8 py-6">
+    {#if ready && groups.length === 0}
+        <p class="py-10 text-center text-75">{locale === "en" ? "No matching posts" : "没有符合条件的文章"}</p>
+    {/if}
     {#each groups as group}
         <div>
             <div class="flex flex-row w-full items-center h-[3.75rem]">
@@ -99,13 +107,13 @@ onMount(async () => {
                     ></div>
                 </div>
                 <div class="w-[70%] md:w-[80%] transition text-left text-50">
-                    {group.posts.length} {i18n(group.posts.length === 1 ? I18nKey.postCount : I18nKey.postsCount)}
+                    {group.posts.length} {i18n(group.posts.length === 1 ? I18nKey.postCount : I18nKey.postsCount, locale)}
                 </div>
             </div>
 
             {#each group.posts as post}
                 <a
-                        href={getPostUrlBySlug(post.slug)}
+                        href={getPostUrlBySlug(post.slug, locale)}
                         aria-label={post.data.title}
                         class="group btn-plain !block h-10 w-full rounded-lg hover:text-[initial]"
                 >

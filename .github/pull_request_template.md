@@ -9,6 +9,7 @@
 - [ ] `pnpm lint`
 - [ ] `pnpm check`
 - [ ] `pnpm build`
+- [ ] Ran `pnpm test:i18n` for language routing, post filtering, or search changes
 - [ ] Previewed the affected pages, links, or posts
 
 ## Screenshots or additional context
