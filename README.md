@@ -143,7 +143,9 @@ git push -u origin post/my-first-post
 
 ## 维护与许可
 
-技术栈为 Astro 5、Svelte 5、Tailwind CSS 3 和 TypeScript。依赖准确版本以 `package.json` 与 `pnpm-lock.yaml` 为准。Dependabot 每周检查 npm 与 GitHub Actions：npm 补丁更新分组，次版本单独提出 PR，大版本及 KaTeX 跨次版本升级另行评估。所有依赖更新经过验证后再合并。
+技术栈为 Astro 5、Svelte 5、Tailwind CSS 3 和 TypeScript。依赖准确版本以 `package.json` 与 `pnpm-lock.yaml` 为准。Dependabot 每周检查 npm 与 GitHub Actions：Expressive Code 的核心、Astro 集成和插件一起更新；其他 npm 补丁更新分组，次版本单独提出 PR，大版本及 KaTeX 跨次版本升级另行评估。
+
+PR（Pull Request）是将分支修改合并到 `main` 的申请。Dependabot 创建的 PR 是依赖更新建议，不代表网站出错，也不需要看到就立即合并。处理时核对更新内容与兼容性，确认最新代码的 CI 通过，再用 **Squash and merge** 合并并删除已合并分支；不适用或重复的更新应写明原因后关闭。合并会触发网站发布，完成后检查线上页面。完整约定见 [PR 处理流程](CONTRIBUTING.md#pr-处理流程)。
 
 反馈问题或内容勘误可提交 [Issue](https://github.com/theLucius7/blog/issues)。提交约定见 [CONTRIBUTING.md](CONTRIBUTING.md)，Fuwari 的通用主题文档见 [上游仓库](https://github.com/saicaca/fuwari)。
 
