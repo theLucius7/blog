@@ -24,6 +24,8 @@ jobs:
         with:
           node-version: 22
           package-manager: pnpm@9.14.4
+          # Rebuild content from source so removed articles cannot survive in the cache.
+          cache: false
           build-cmd: pnpm lint && pnpm check && pnpm build
 
   deploy:
