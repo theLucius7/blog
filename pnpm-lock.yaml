@@ -54,8 +54,8 @@ importers:
         specifier: ^4.2.0
         version: 4.2.0(svelte@5.39.8)
       '@swup/astro':
-        specifier: ^1.7.0
-        version: 1.7.0(@types/babel__core@7.20.5)
+        specifier: ^1.8.0
+        version: 1.8.0(@types/babel__core@7.20.5)
       '@tailwindcss/typography':
         specifier: ^0.5.20
         version: 0.5.20(tailwindcss@3.4.19(yaml@2.9.0))
@@ -1838,8 +1838,8 @@ packages:
     peerDependencies:
       swup: ^4.0.0
 
-  '@swup/astro@1.7.0':
-    resolution: {integrity: sha512-OxZskzeYkEZ4+McbwJKyD018sHNlrKQLdtHzlmNjivrzQY/dB7ncnWqDs3d4IkA7Y+ydNjpwBqpR/asjDhTiag==}
+  '@swup/astro@1.8.0':
+    resolution: {integrity: sha512-FI8/jNXgyUoWpnOgdB3MOUobRtRzedKBE8+qbBH5c8CE4q9Ni/GHPGrXK/0xG+g1ZiIQuTF3OXRvTLNVouiBig==}
 
   '@swup/body-class-plugin@3.3.0':
     resolution: {integrity: sha512-4h/6mAgDd0+ml8Gc2kX8tikIR0HZZLF+WTnfm0JTVrGDw74bgEBenbsaWFfIS+gn4RWKZdWBUOfaZ+Im5J7Gvw==}
@@ -7242,7 +7242,7 @@ snapshots:
       focus-options-polyfill: 1.6.0
       swup: 4.8.2
 
-  '@swup/astro@1.7.0(@types/babel__core@7.20.5)':
+  '@swup/astro@1.8.0(@types/babel__core@7.20.5)':
     dependencies:
       '@swup/a11y-plugin': 5.0.0(swup@4.8.2)
       '@swup/body-class-plugin': 3.3.0(swup@4.8.2)
