@@ -15,4 +15,4 @@
 
 <!-- 界面变更附桌面或手机截图；依赖升级说明兼容性与验证结果。无补充时可删除本节。 -->
 
-维护约定见 [CONTRIBUTING.md](https://github.com/theLucius7/blog/blob/main/CONTRIBUTING.md)。
+维护约定见 [CONTRIBUTING.md](https://github.com/xw7qwq/nfuwari/blob/main/CONTRIBUTING.md)。

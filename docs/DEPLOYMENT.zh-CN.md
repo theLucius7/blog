@@ -1,6 +1,6 @@
 # 本地运行与部署
 
-网站：[blog.lucius7.cn](https://blog.lucius7.cn/) · 源码：[theLucius7/blog](https://github.com/theLucius7/blog)
+网站：[blog.lucius7.cn](https://blog.lucius7.cn/) · 源码：[xw7qwq/nfuwari](https://github.com/xw7qwq/nfuwari)
 
 文章格式与图片说明见 [写作指南](WRITING.zh-CN.md)，数学公式见 [LaTeX 指南](LATEX.zh-CN.md)。
 
@@ -12,8 +12,8 @@
 node --version
 npm install -g pnpm@9.14.4
 pnpm --version
-git clone https://github.com/theLucius7/blog.git
-cd blog
+git clone https://github.com/xw7qwq/nfuwari.git
+cd nfuwari
 pnpm install --frozen-lockfile
 pnpm dev
 ```
@@ -76,9 +76,9 @@ git push -u origin post/my-first-post
 
 ### 5. 合并 PR 并检查线上
 
-打开 [仓库 Pull Requests](https://github.com/theLucius7/blog/pulls)，创建写作分支到 `main` 的 PR，说明修改和验证结果。确认 CI 通过后合并。分支推送和 PR 创建不会直接更新线上站点；合并到 `main` 才触发发布。
+打开 [仓库 Pull Requests](https://github.com/xw7qwq/nfuwari/pulls)，创建写作分支到 `main` 的 PR，说明修改和验证结果。确认 CI 通过后合并。分支推送和 PR 创建不会直接更新线上站点；合并到 `main` 才触发发布。
 
-在 [Deploy to GitHub Pages](https://github.com/theLucius7/blog/actions/workflows/deploy.yml) 查看当前提交的运行结果。成功后打开 [网站](https://blog.lucius7.cn/) 检查受影响页面。工作流也支持在 Actions 页面手动运行。
+在 [Deploy to GitHub Pages](https://github.com/xw7qwq/nfuwari/actions/workflows/deploy.yml) 查看当前提交的运行结果。成功后打开 [网站](https://blog.lucius7.cn/) 检查受影响页面。工作流也支持在 Actions 页面手动运行。
 
 完成后，在本地同步合并后的主线：
 
@@ -91,7 +91,7 @@ git pull --ff-only
 
 CI 使用 Node.js 22、指定版本的 pnpm 与锁文件，依次执行 `pnpm lint`、`pnpm check`、`pnpm build`。PR 检查通过后，合并到 `main` 会触发发布工作流：再次检查并完整构建，上传构建产物，再部署到 GitHub Pages。发布不复用 Astro 内容缓存，以免删除文章后仍生成旧内容。
 
-在 [Settings → Pages](https://github.com/theLucius7/blog/settings/pages) 中，发布来源应为 **GitHub Actions**，Custom domain 为 `blog.lucius7.cn`。只需要提交源码，GitHub Pages 不需要单独维护 `gh-pages` 分支。
+在 [Settings → Pages](https://github.com/xw7qwq/nfuwari/settings/pages) 中，发布来源应为 **GitHub Actions**，Custom domain 为 `blog.lucius7.cn`。只需要提交源码，GitHub Pages 不需要单独维护 `gh-pages` 分支。
 
 ## 域名与 HTTPS
 
@@ -101,11 +101,11 @@ CI 使用 Node.js 22、指定版本的 pnpm 与锁文件，依次执行 `pnpm li
 site: "https://blog.lucius7.cn/",
 ```
 
-独立域名使用根路径，不设置 `base`，文章地址为 `/posts/文章名/`。仓库名称为 `blog` 也不需要 `/blog/` 路径前缀。
+独立域名使用根路径，不设置 `base`，文章地址为 `/posts/文章名/`。仓库名称为 `nfuwari`，独立域名也不需要 `/nfuwari/` 路径前缀。
 
-`public/CNAME` 记录目标域名；使用 Actions 发布时，实际绑定以 GitHub Pages 设置为准，不能只修改此文件。更换域名需要同步修改 `site`、`public/CNAME`、Pages 绑定和 DNS/CDN 配置。当前域名绑定到 `theLucius7/blog`，不应同时绑定另一个仓库。
+`public/CNAME` 记录目标域名；使用 Actions 发布时，实际绑定以 GitHub Pages 设置为准，不能只修改此文件。更换域名需要同步修改 `site`、`public/CNAME`、Pages 绑定和 DNS/CDN 配置。当前域名绑定到 `xw7qwq/nfuwari`，不应同时绑定另一个仓库。
 
-访问链路为：浏览器 → 阿里云 ESA → GitHub Pages。ESA 回源域名可指向 `thelucius7.github.io`，回源 Host 应为 `blog.lucius7.cn`，不添加仓库名称作为路径前缀。更新后若仍显示旧内容，在 ESA 刷新对应页面缓存，并检查浏览器缓存。
+访问链路为：浏览器 → 阿里云 ESA → GitHub Pages。仓库迁移到 `xw7qwq` 后，GitHub Pages 的组织域名为 `xw7qwq.github.io`；核对 ESA 回源配置时使用当前组织域名，回源 Host 应为 `blog.lucius7.cn`，不添加仓库名称作为路径前缀。更新后若仍显示旧内容，在 ESA 刷新对应页面缓存，并检查浏览器缓存。
 
 **截至 2026-09-08 的证书状态：** 公开站点可通过 HTTPS 访问，使用 ESA 提供的证书；GitHub Pages API 返回源站证书状态 `bad_authz`，`https_enforced` 为 `false`。公开访问正常不代表源站证书已经恢复。后续需按 [GitHub 自定义域名说明](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site) 检查域名验证与证书签发，并确认 ESA 的回源协议、证书校验设置。源站证书恢复后，再确认是否启用 Pages 的 Enforce HTTPS。
 
