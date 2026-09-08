@@ -1,4 +1,4 @@
-# Lucius7 的博客
+# Lucius7's Blog
 
 [![CI](https://github.com/theLucius7/blog/actions/workflows/build.yml/badge.svg)](https://github.com/theLucius7/blog/actions/workflows/build.yml)
 [![GitHub Pages](https://github.com/theLucius7/blog/actions/workflows/deploy.yml/badge.svg)](https://github.com/theLucius7/blog/actions/workflows/deploy.yml)
@@ -7,7 +7,7 @@
 
 ## 当前状态
 
-截至 2026-09-08，模板示例文章、配图和默认个人资料已清理，站点名称为「Lucius7 的博客」，界面语言为中文。文章目录从空白开始，没有公开文章时首页显示空状态；原 AstroPaper 博客的文章尚未迁入。
+截至 2026-09-08，模板示例文章、配图和默认个人资料已清理，站点名称为「Lucius7's Blog」，界面语言为中文。文章目录从空白开始，没有公开文章时首页显示空状态；原 AstroPaper 博客的文章尚未迁入。
 
 | 项目 | 当前配置 |
 | --- | --- |
