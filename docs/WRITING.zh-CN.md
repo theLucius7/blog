@@ -2,7 +2,7 @@
 
 文章保存在 `src/content/posts/`，支持普通 Markdown（`.md`）。项目没有启用 MDX 集成，新建脚本也只生成 `.md`。本文中的示例仅用于说明，不会自动出现在博客中。
 
-首次安装与运行见 [README](../README.md#第一次运行)，提交和上线步骤见 [部署指南](DEPLOYMENT.zh-CN.md)。
+首次安装与运行见 [README](../README.md#first-run)，提交和上线步骤见 [部署指南](DEPLOYMENT.zh-CN.md)。
 
 ## 新建文章
 

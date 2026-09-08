@@ -1,23 +1,23 @@
-name: 内容勘误
-description: 反馈文章中的错字、公式、代码、失效链接或事实错误。
-title: "[勘误] "
+name: Content correction
+description: Report typos, incorrect math or code, broken links, or factual errors in a post.
+title: "[Correction] "
 body:
   - type: input
     id: location
     attributes:
-      label: 文章地址
-      placeholder: https://blog.lucius7.cn/posts/文章名/
+      label: Post URL
+      placeholder: https://blog.lucius7.cn/posts/post-name/
     validations:
       required: true
   - type: textarea
     id: correction
     attributes:
-      label: 原文与建议修改
-      description: 指出具体段落，并说明应如何修正。
+      label: Original text and suggested correction
+      description: Identify the specific passage and explain how it should be corrected.
     validations:
       required: true
   - type: textarea
     id: references
     attributes:
-      label: 依据或补充信息
-      description: 如涉及技术或事实判断，可附官方文档、参考链接或复现结果。
+      label: Supporting evidence or context
+      description: For technical or factual corrections, include official documentation, references, or reproduction results if available.
