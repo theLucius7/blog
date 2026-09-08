@@ -14,14 +14,14 @@ pnpm dev
 ```
 
 文章位于 `src/content/posts/`，站点与社交链接配置位于 `src/config.ts`。
-写作和部署步骤见 [部署说明](docs/DEPLOYMENT.zh-CN.md)，数学公式见 [LaTeX 说明](docs/LATEX.zh-CN.md)。
+文章字段、图片与草稿见 [写作指南](docs/WRITING.zh-CN.md)，提交与上线步骤见 [部署说明](docs/DEPLOYMENT.zh-CN.md)，数学公式见 [LaTeX 说明](docs/LATEX.zh-CN.md)。
 
 ## 提交修改
 
 - 一个 PR 聚焦一类变动，避免把内容修改、界面调整和依赖升级混在一起。
 - 提交名说明具体结果，例如 `docs: 更新写作说明`、`fix: 修复文章图片路径`。
 - PR 描述写清问题、修改后的行为和验证结果；界面变更附相应截图。
-- 文章修改检查标题、日期、链接、图片和公式；未完成的文章设置 `draft: true`。
+- 文章修改检查标题、日期、链接、图片和公式；新建脚本默认 `draft: true`，准备公开时改为 `false`。
 
 代码或依赖变更提交前运行：
 
