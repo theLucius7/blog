@@ -18,10 +18,10 @@
 
 | 来源 | 数量 | 当前调用范围与后续处理 |
 | --- | --- | --- |
-| Astro 5.18.2 | 8：2 high、4 moderate、2 low | 公告涉及服务端请求、Server Islands、动态属性、插槽和 View Transition 的转义。当前发布纯静态文件，没有服务端适配器或 Server Islands；`define:vars` 来自仓库配置与常量，插槽名固定。未发现公开请求控制这些渲染参数的路径。公告修复横跨 Astro 6/7，完整覆盖需至少 Astro 7.1；应单独迁移旧内容集合并验证集成、RSS、搜索和页面，不能只改版本号。 |
-| Sharp 0.34.5 / libvips | 1 high | 用于构建时处理仓库内图片；当前腾讯头像走普通远程 `img`。不提供公开图片上传或在线转换接口。修复要求 Sharp 0.35，升级时需一起核对 Astro 的 Sharp 依赖，避免只更新直接依赖后仍保留旧解析器。 |
+| Astro 5.18.2 | 8：2 high、4 moderate、2 low | 公告涉及服务端请求、Server Islands、动态属性、插槽和 View Transition 的转义。当前发布纯静态文件，没有服务端适配器或 Server Islands；`define:vars` 来自仓库配置与常量，插槽名固定。未发现公开请求控制这些渲染参数的路径。静态部署本身不能阻止被污染的构建数据触发转义缺陷；当前判断依据是构建输入受仓库审阅控制。公告修复横跨 Astro 6/7，完整覆盖需至少 Astro 7.1；应单独迁移旧内容集合并验证集成、RSS、搜索和页面，不能只改版本号。 |
+| Sharp 0.34.5 / libvips | 1 high | 用于构建时处理仓库内图片；当前腾讯头像走普通远程 `img`。不提供公开图片上传或在线转换接口。公告 API 将首修版本标记为 0.35.0；使用预编译二进制时，迁移至少采用 0.35.3（libvips 8.18.3）。升级时需一起核对 Astro 的 Sharp 依赖，避免只更新直接依赖后仍保留旧解析器。 |
 | `@swup/astro` → 旧 Swup 插件 → microbundle → `serialize-javascript` 4 | 1 high | 旧插件把构建工具带入了依赖树。站点脚本执行 Astro、Biome 和 Pagefind，不执行 microbundle；浏览器使用插件已发布的代码。应随父插件更新或替换这条构建链。修复版本至少为 7.0.3，不强制把旧工具链的 4.x 覆盖为 7.x。 |
-| Astro → esbuild 0.27.7 | 1 low | 公告针对 Windows 上的开发服务器任意文件读取。Pages 只部署静态产物，没有部署开发服务器。修复要求 esbuild 0.28.1，随兼容的 Astro 工具链迁移处理。 |
+| Astro → esbuild 0.27.7 | 1 low | 公告针对 Windows 上 esbuild 自身 `serve` / `servedir` 的任意文件读取。当前 Astro 只调用其 `build` / `transform`，没有调用该服务接口；Pages 只部署静态产物。修复要求 esbuild 0.28.1，随兼容的 Astro 工具链迁移处理。 |
 
 相关公告：[Astro Host 请求](https://github.com/advisories/GHSA-2pvr-wf23-7pc7)、[Astro 插槽](https://github.com/advisories/GHSA-8hv8-536x-4wqp)、[Astro 属性转义](https://github.com/advisories/GHSA-f48w-9m4c-m7f5)、[Astro View Transition](https://github.com/advisories/GHSA-4g3v-8h47-v7g6)、[Sharp/libvips](https://github.com/advisories/GHSA-f88m-g3jw-g9cj)、[serialize-javascript](https://github.com/advisories/GHSA-5c6j-r48x-rmvq)、[esbuild](https://github.com/advisories/GHSA-g7r4-m6w7-qqqr)。
 
