@@ -13,7 +13,8 @@
 | --- | --- |
 | 网站 | [blog.lucius7.cn](https://blog.lucius7.cn/)，独立域名根路径 |
 | 作者 | Lucius7 |
-| 头像与站点图标 | `public/icon.svg`，L7 字标 |
+| 头像 | QQ 3012967200 的头像，使用腾讯 HTTPS 头像接口 |
+| 站点图标 | `public/icon.svg`，L7 字标 |
 | 写作 | Markdown；新文章默认是草稿，本地开发可预览 |
 | 阅读 | 明暗主题、分类与标签、Pagefind 搜索、RSS、站点地图 |
 | 数学公式 | `remark-math` + `rehype-katex`，样式与字体随站点发布 |
@@ -114,7 +115,9 @@ git push -u origin post/my-first-post
 | `.github/workflows/` | CI 与 GitHub Pages 发布流程 |
 | `docs/` | 写作、数学公式、部署和维护说明 |
 
-站点头像和横幅的配置路径，相对 `src/` 时写 `assets/...`，使用 `public/` 文件时写 `/images/...`。文章封面与正文图片的路径规则见 [图片说明](docs/WRITING.zh-CN.md#图片)。
+当前头像由 `profileConfig.avatar` 直接引用腾讯接口 `https://q1.qlogo.cn/g?b=qq&nk=3012967200&s=640`。修改 QQ 头像后，网站会在浏览器及接口缓存更新后显示新头像，无需替换仓库图片。
+
+站点头像和横幅也可使用本地图片：相对 `src/` 时写 `assets/...`，使用 `public/` 文件时写 `/images/...`。文章封面与正文图片的路径规则见 [图片说明](docs/WRITING.zh-CN.md#图片)。
 
 在 `src/config.ts` 中可以修改：
 
