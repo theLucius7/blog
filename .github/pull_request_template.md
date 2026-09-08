@@ -1,37 +1,18 @@
-## Type of change
+## 变更说明
 
-- [ ] Bug fix (a non-breaking change that fixes an issue)
-- [ ] New feature (a non-breaking change that adds functionality)
-- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
-- [ ] Other (please describe):
+<!-- 解决什么问题？修改后有什么具体变化？有关联 Issue 时填写 #编号。 -->
 
-## Checklist
+## 验证
 
-- [ ] I have read the [**CONTRIBUTING**](https://github.com/saicaca/fuwari/blob/main/CONTRIBUTING.md) document.
-- [ ] I have checked to ensure that this Pull Request is not for personal changes.
-- [ ] I have performed a self-review of my own code.
-- [ ] My changes generate no new warnings.
+<!-- 按变更范围填写结果；不适用的检查可删除并说明原因。 -->
 
-## Related Issue
+- [ ] `pnpm lint`
+- [ ] `pnpm check`
+- [ ] `pnpm build`
+- [ ] 已预览受影响的页面、链接或文章
 
-<!-- Please link to the issue that this pull request addresses. e.g. #123 -->
+## 截图或补充说明
 
+<!-- 界面变更附桌面或手机截图；依赖升级说明兼容性与验证结果。无补充时可删除本节。 -->
 
-## Changes
-
-<!-- Please describe the changes you made in this pull request. -->
-
-
-## How To Test
-
-<!-- Please describe how you tested your changes. -->
-
-
-## Screenshots (if applicable)
-
-<!-- If you made any UI changes, please include screenshots. -->
-
-
-## Additional Notes
-
-<!-- Any additional information that you want to share with the reviewer. -->
+维护约定见 [CONTRIBUTING.md](https://github.com/theLucius7/blog/blob/main/CONTRIBUTING.md)。

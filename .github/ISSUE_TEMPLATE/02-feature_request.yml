@@ -1,41 +1,24 @@
-name: Feature Request
-description: Suggest an idea for this project
-title: "[Feature]: "
+name: 功能建议
+description: 提出博客阅读体验、页面或功能的改进建议。
+title: "[建议] "
 labels: ["enhancement"]
-assignees:
-  - saicaca
 body:
-  - type: markdown
-    attributes:
-      value: |
-        Thanks for taking the time to fill out this feature request!
   - type: textarea
-    id: related-problem
+    id: problem
     attributes:
-      label: Is your feature request related to a problem?
-      description: A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+      label: 使用场景
+      description: 目前遇到什么不便？建议将帮助你完成什么事情？
     validations:
       required: true
   - type: textarea
-    id: solution
+    id: proposal
     attributes:
-      label: Describe the solution you'd like
-      description: A clear and concise description of what you want to happen.
+      label: 建议的改进
+      description: 描述你希望看到的具体行为或效果。
     validations:
       required: true
   - type: textarea
-    id: alternatives
+    id: references
     attributes:
-      label: Describe alternatives you've considered
-      description: A clear and concise description of any alternative solutions or features you've considered.
-  - type: textarea
-    id: additional-context
-    attributes:
-      label: Additional context
-      description: Add any other context or screenshots about the feature request here.
-  - type: markdown
-    attributes:
-      value: |
-        **Disclaimer**
-
-        Please note that this feature request is at the discretion of the repository owner, @saicaca, and its implementation is not guaranteed.
+      label: 相关页面或参考资料
+      description: 可附博客页面地址、截图、参考实现或其他可行方案。

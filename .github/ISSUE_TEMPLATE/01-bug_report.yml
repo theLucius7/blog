@@ -1,59 +1,41 @@
-name: Bug Report
-description: Create a report to help us improve
-title: "[Bug]: "
+name: 问题反馈
+description: 报告博客页面、功能或本地构建的问题。
+title: "[问题] "
 labels: ["bug"]
-assignees:
-  - L4Ph
-  - saicaca
 body:
-  - type: markdown
-    attributes:
-      value: |
-        Thanks for taking the time to fill out this bug report!
-  - type: textarea
-    id: bug-description
-    attributes:
-      label: Describe the bug
-      description: A clear and concise description of what the bug is.
-    validations:
-      required: true
-  - type: textarea
-    id: to-reproduce
-    attributes:
-      label: To Reproduce
-      description: Steps to reproduce the behavior.
-      placeholder: |
-        1. Go to '...'
-        2. Click on '....'
-        3. Scroll down to '....'
-        4. See error
-    validations:
-      required: true
-  - type: textarea
-    id: expected-behavior
-    attributes:
-      label: Expected behavior
-      description: A clear and concise description of what you expected to happen.
-    validations:
-      required: true
-  - type: dropdown
-    id: os
-    attributes:
-      label: OS
-      multiple: true
-      options:
-        - Windows
-        - macOS
-        - Linux
-        - Android
-        - iOS
   - type: input
-    id: browser
+    id: location
     attributes:
-      label: Browser
-      placeholder: e.g. chrome, safari
+      label: 页面地址或文件路径
+      placeholder: https://blog.lucius7.cn/posts/文章名/，或本地构建命令
+    validations:
+      required: true
   - type: textarea
-    id: additional-context
+    id: reproduction
     attributes:
-      label: Additional context
-      description: Add any other context about the problem here.
+      label: 问题与复现步骤
+      description: 描述实际发生的情况，以及如何再次遇到这个问题。
+      placeholder: |
+        1. 打开……
+        2. 点击……
+        3. 出现……
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: 期望结果
+      description: 你期望页面或功能如何表现？
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: 使用环境
+      description: 页面问题填写设备、系统和浏览器；构建问题填写 Node.js 与 pnpm 版本。
+      placeholder: iPhone / iOS / Safari，或 macOS / Node.js 22 / pnpm 9.14.4
+  - type: textarea
+    id: context
+    attributes:
+      label: 截图、日志或其他信息
+      description: 可拖入截图或粘贴相关错误日志，请移除密码、令牌等敏感信息。
