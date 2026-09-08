@@ -3,31 +3,33 @@
 [![CI](https://github.com/xw7qwq/nfuwari/actions/workflows/build.yml/badge.svg)](https://github.com/xw7qwq/nfuwari/actions/workflows/build.yml)
 [![GitHub Pages](https://github.com/xw7qwq/nfuwari/actions/workflows/deploy.yml/badge.svg)](https://github.com/xw7qwq/nfuwari/actions/workflows/deploy.yml)
 
-[blog.lucius7.cn](https://blog.lucius7.cn/) 的源码仓库，基于 [Fuwari](https://github.com/saicaca/fuwari) 和 Astro。文章用 Markdown 编写，合并到 `main` 后由 GitHub Actions 自动发布到 GitHub Pages，通过阿里云 ESA 提供域名访问。
+Source for [blog.lucius7.cn](https://blog.lucius7.cn/), built with [Fuwari](https://github.com/saicaca/fuwari) and Astro. Write posts in Markdown, merge them into `main`, and GitHub Actions publishes the site to GitHub Pages. Alibaba Cloud ESA serves the custom domain.
 
-## 当前状态
+[Writing guide](docs/WRITING.md) · [Bilingual content](docs/I18N.md) · [LaTeX guide](docs/LATEX.md) · [Deployment](docs/DEPLOYMENT.md) · [Contributing](CONTRIBUTING.md) · [Dependency review](docs/DEPENDENCY-REVIEW.md)
 
-截至 2026-09-09，站点名称为「Lucius7's Blog」，提供独立的[中文入口](https://blog.lucius7.cn/zh/)与[英文入口](https://blog.lucius7.cn/en/)。模板示例文章、配图和默认个人资料已清理。文章目录从空白开始，没有公开文章时首页显示空状态；原 AstroPaper 博客的文章尚未迁入。
+## Current state
 
-| 项目 | 当前配置 |
+As of September 9, 2026, "Lucius7's Blog" has separate [Chinese](https://blog.lucius7.cn/zh/) and [English](https://blog.lucius7.cn/en/) entry points. Template posts, images, and default profile details have been removed. The post directories start empty; each home page shows an empty state until a public post is added. Posts from the previous AstroPaper blog have not yet been migrated.
+
+| Item | Configuration |
 | --- | --- |
-| 网站 | 根入口跳转 `/zh/`，中文 `/zh/`、英文 `/en/` |
-| 双语 | 文章分目录，列表、分类标签、前后篇导航、RSS 和搜索按语言隔离 |
-| 作者 | Lucius7 |
-| 头像 | QQ 3012967200 的头像，使用腾讯 HTTPS 头像接口 |
-| 站点图标 | `public/icon.svg`，L7 字标 |
-| 写作 | Markdown；新文章默认是草稿，本地开发可预览 |
-| 阅读 | 明暗主题、分类与标签、Pagefind 搜索、RSS、站点地图 |
-| 数学公式 | `remark-math` + `rehype-katex`，样式与字体随站点发布 |
-| 社交链接 | GitHub、X、LinkedIn |
-| 页脚备案 | [蜀ICP备2026023763号-1](https://beian.miit.gov.cn/) |
-| 发布 | `main` 更新后执行代码检查、类型检查、构建和部署 |
+| Website | The root redirects to `/zh/`; Chinese uses `/zh/` and English uses `/en/` |
+| Languages | Separate post directories, lists, category and tag counts, post navigation, RSS, and search |
+| Author | Lucius7 |
+| Avatar | QQ account `3012967200`, through Tencent's HTTPS avatar endpoint |
+| Site icon | `public/icon.svg`, an L7 wordmark |
+| Writing | Markdown; new posts are drafts visible in local development |
+| Reading | Light and dark themes, categories, tags, Pagefind search, RSS, and sitemap |
+| Math | `remark-math` + `rehype-katex`; styles and fonts ship with the site |
+| Social links | GitHub, X, and LinkedIn |
+| Footer registration | [ICP registration](https://beian.miit.gov.cn/), preserved in the site footer |
+| Publishing | Style checks, type checks, build, and deployment on updates to `main` |
 
-公开站点的 HTTPS 由 ESA 提供；GitHub Pages 源站证书仍有独立待办，见 [域名与 HTTPS](docs/DEPLOYMENT.zh-CN.md#域名与-https)。
+ESA provides HTTPS for the public site. The GitHub Pages origin certificate has a separate outstanding task; see [Domain and HTTPS](docs/DEPLOYMENT.md#domain-and-https).
 
-## 第一次运行
+## First run
 
-需要 Git、**Node.js 22（至少 22.12）** 和 **pnpm 9.14.4**。先安装 Node.js，再在终端执行：
+Install Git, **Node.js 22 (at least 22.12)**, and **pnpm 9.14.4**:
 
 ```sh
 git clone https://github.com/xw7qwq/nfuwari.git
@@ -37,48 +39,48 @@ pnpm install --frozen-lockfile
 pnpm dev
 ```
 
-使用 nvm 管理 Node.js 时，在安装 pnpm 前执行 `nvm install` 和 `nvm use`，读取仓库的 `.nvmrc`。打开终端显示的地址，默认是 `http://localhost:4321/`。保存文章或配置后，开发页面会更新；按 `Ctrl+C` 停止服务。
+If you use nvm, run `nvm install` and `nvm use` before installing pnpm to use the version in `.nvmrc`. Open the address shown in the terminal, normally `http://localhost:4321/`. Saved changes update the development page; press `Ctrl+C` to stop the server.
 
-## 写第一篇文章
+## Write your first post
 
-在仓库目录中，先同步主线并创建写作分支：
+Sync the default branch and create a writing branch:
 
 ```sh
 git switch main
 git pull --ff-only
 git switch -c post/my-first-post
-pnpm new-post zh/my-first-post
+pnpm new-post en/my-first-post
 pnpm dev
 ```
 
-编辑生成的 `src/content/posts/zh/my-first-post.md`。脚本默认生成 `draft: true`，`zh/` 文章生成 `lang: zh_CN`，`en/` 文章生成 `lang: en`；正文写在第二个 `---` 下方：
+Edit `src/content/posts/en/my-first-post.md`. The generator defaults to `draft: true`, with `lang: en` for `en/` posts and `lang: zh_CN` for `zh/` posts. The body starts after the second `---`:
 
 ```markdown
 ---
-title: "我的第一篇文章"
+title: "My first post"
 published: 2026-09-08
-description: "用一句话介绍这篇文章"
+description: "A short introduction to this post"
 image: ''
-tags: [笔记]
-category: 日常
+tags: [notes]
+category: Journal
 draft: true
-lang: zh_CN
+lang: en
 ---
 
-## 开始记录
+## Getting started
 
-这里写正文。行内公式可以写成 $E = mc^2$。
+Write the body here. Inline math looks like $E = mc^2$.
 ```
 
-将日期改为实际发布日期。用 `pnpm dev` 预览草稿；准备公开时改为 `draft: false`。**`pnpm build` 和线上发布会排除草稿**，所以生产预览中看不到草稿是正常行为。
+Use the actual publication date. Preview drafts with `pnpm dev`; set `draft: false` when ready to publish. **Production builds and deployments exclude drafts**, so they do not appear in `pnpm preview`.
 
-多图文章可以用 `pnpm new-post zh/my-first-post/index` 创建文章目录，正文和图片放在一起。单文件和目录式二选一，不要同时创建同名文章。字段、图片路径、文章地址与 Markdown 示例见 [完整写作指南](docs/WRITING.zh-CN.md)，数学公式见 [LaTeX 指南](docs/LATEX.zh-CN.md)。
+For posts with several images, use `pnpm new-post en/my-first-post/index` to keep text and images together. Choose either a single file or a directory; do not create both for the same post. See the [writing guide](docs/WRITING.md) for fields, image paths, URLs, and Markdown, and the [LaTeX guide](docs/LATEX.md) for math.
 
-要写英文文章，运行 `pnpm new-post en/my-first-post`，编辑 `src/content/posts/en/my-first-post.md`。中英文可以独立发布；同名路径自动对应译文，异名路径可填写相同的 `translationKey`。导航的「中文 / English」切换会优先进入对应译文，没有译文则进入目标语言首页。完整规则见 [双语维护指南](docs/I18N.zh-CN.md)。
+Chinese posts use `pnpm new-post zh/my-first-post`; omitting the language prefix also defaults to `zh/`. Languages can publish independently. Matching relative paths identify translations automatically; different paths can share a `translationKey`. The language switcher opens the translation when available and otherwise opens the target language's home page. See the [bilingual content guide](docs/I18N.md).
 
-## 检查并发布
+## Check and publish
 
-停止开发服务，将准备发布的文章设为 `draft: false`，然后运行：
+Stop the development server, set posts intended for publication to `draft: false`, and run:
 
 ```sh
 pnpm lint
@@ -87,71 +89,69 @@ pnpm build
 pnpm preview
 ```
 
-打开终端给出的地址，检查文章、图片、公式和搜索。`pnpm preview` 展示上一次构建产物；再次修改后需要重新运行 `pnpm build`。构建会清除 Astro 内容缓存，确保删除的文章不再出现在产物中。
+Check posts, images, math, and search at the preview address. `pnpm preview` serves the last build; run `pnpm build` again after changes. The build clears Astro's content cache so deleted posts do not survive in the output.
 
-确认后提交这篇文章：
+Commit the reviewed post:
 
 ```sh
 git status
-git add src/content/posts/zh/my-first-post.md
-git commit -m "docs: 发布第一篇文章"
+git add src/content/posts/en/my-first-post.md
+git commit -m "docs: publish first post"
 git push -u origin post/my-first-post
 ```
 
-若文章包含图片，把对应图片路径一并加入 `git add`。到 [GitHub 仓库](https://github.com/xw7qwq/nfuwari) 创建该分支到 `main` 的 Pull Request，确认 CI 通过后合并。随后在 [发布工作流](https://github.com/xw7qwq/nfuwari/actions/workflows/deploy.yml) 查看结果，成功后打开网站检查。
+Include any associated images in `git add`. Open a PR targeting `main` in the [repository](https://github.com/xw7qwq/nfuwari), wait for the current commit's CI to pass, and merge. Check the [deployment workflow](https://github.com/xw7qwq/nfuwari/actions/workflows/deploy.yml), then inspect the live site.
 
-日常同步、更新已有文章、发布失败与缓存排查见 [部署指南](docs/DEPLOYMENT.zh-CN.md)。只提交源码和文章资源，不提交 `dist/`、`.astro/` 或 `node_modules/`。
+See the [deployment guide](docs/DEPLOYMENT.md) for regular updates, failures, and cache troubleshooting. Commit source and post assets; exclude `dist/`, `.astro/`, and `node_modules/`.
 
-## 常用配置与目录
+## Configuration and layout
 
-| 文件或目录 | 用途 |
+| Path | Purpose |
 | --- | --- |
-| `src/content/posts/zh/`、`src/content/posts/en/` | 中文、英文文章 Markdown 与文章专用图片 |
-| `src/content/spec/zh/about.md`、`src/content/spec/en/about.md` | 中英文关于页面 |
-| `src/i18n/` | 语言标识与界面词条 |
-| `src/config.ts` | 站点名称、主题色、头像、简介、导航、社交链接和文章许可证 |
-| `src/content/config.ts` | 文章 frontmatter 字段与校验规则 |
-| `src/components/Footer.astro` | 页脚及备案链接 |
-| `src/assets/` | 由 Astro 处理的站点资源，可按需创建目录 |
-| `public/` | 原样发布的静态文件；`CNAME` 记录域名 |
-| `astro.config.mjs` | 站点地址、Astro 集成与 Markdown 插件 |
-| `scripts/new-post.js` | 生成 Markdown 草稿 |
-| `.github/workflows/` | CI 与 GitHub Pages 发布流程 |
-| `docs/` | 写作、数学公式、部署和维护说明 |
+| `src/content/posts/zh/`, `src/content/posts/en/` | Chinese and English posts with their dedicated images |
+| `src/content/spec/zh/about.md`, `src/content/spec/en/about.md` | Chinese and English About pages |
+| `src/i18n/` | Language identifiers and interface translations |
+| `src/config.ts` | Site identity, theme, profile, navigation, social links, and post license |
+| `src/content/config.ts` | Frontmatter fields and validation |
+| `src/components/Footer.astro` | Footer and registration link |
+| `src/assets/` | Assets processed by Astro; create directories as needed |
+| `public/` | Files published unchanged; `CNAME` records the domain |
+| `astro.config.mjs` | Site URL, integrations, and Markdown plugins |
+| `scripts/new-post.js` | Markdown draft generator |
+| `.github/workflows/` | CI and GitHub Pages deployment |
+| `docs/` | Writing, math, deployment, and maintenance guides |
 
-当前头像由 `profileConfig.avatar` 直接引用腾讯接口 `https://q1.qlogo.cn/g?b=qq&nk=3012967200&s=640`。修改 QQ 头像后，网站会在浏览器及接口缓存更新后显示新头像，无需替换仓库图片。
+`profileConfig.avatar` currently uses Tencent's endpoint directly: `https://q1.qlogo.cn/g?b=qq&nk=3012967200&s=640`. Changes to the QQ avatar appear once browser and endpoint caches refresh; no repository image replacement is needed.
 
-站点头像和横幅也可使用本地图片：相对 `src/` 时写 `assets/...`，使用 `public/` 文件时写 `/images/...`。文章封面与正文图片的路径规则见 [图片说明](docs/WRITING.zh-CN.md#图片)。
+Local profile and banner images use `assets/...` for paths relative to `src/`, or `/images/...` for files in `public/`. See [Images](docs/WRITING.md#images) for post cover and body image paths.
 
-在 `src/config.ts` 中可以修改：
-
-| 配置项 | 用途 |
+| Setting in `src/config.ts` | Purpose |
 | --- | --- |
-| `siteConfig.title`、`subtitle` | 网站名称、副标题；界面语言由 `/zh/` 或 `/en/` 路径决定 |
-| `siteConfig.themeColor.hue` | 主题色；范围为 0–360 |
-| `siteConfig.banner.enable`、`src` | 是否启用横幅及横幅图片 |
-| `profileConfig.avatar`、`name`、`bio` | 头像、作者名和简介 |
-| `profileConfig.links` | 侧栏社交链接及图标 |
-| `navBarConfig.links` | 顶部导航 |
-| `licenseConfig` | 文章底部许可证显示与链接 |
+| `siteConfig.title`, `subtitle` | Site name and subtitle; `/zh/` or `/en/` determines the interface language |
+| `siteConfig.themeColor.hue` | Theme hue, from 0 to 360 |
+| `siteConfig.banner.enable`, `src` | Banner visibility and image |
+| `profileConfig.avatar`, `name`, `bio` | Avatar, author name, and biography |
+| `profileConfig.links` | Sidebar social links and icons |
+| `navBarConfig.links` | Top navigation |
+| `licenseConfig` | Post license display and link |
 
-| 命令 | 用途 |
+| Command | Purpose |
 | --- | --- |
-| `pnpm dev` | 开发预览，包含草稿 |
-| `pnpm new-post zh/名称` / `pnpm new-post en/名称` | 按语言创建 `.md` 草稿，也可传 `语言/目录/index`；省略语言默认中文 |
-| `pnpm test:i18n` | 在临时目录验证双语路由、文章隔离、搜索索引与写作脚本 |
-| `pnpm lint` | 只读代码检查 |
-| `pnpm lint:fix` | 自动修复部分代码格式与检查问题 |
-| `pnpm check` | Astro、Svelte 和 TypeScript 检查；`type-check` 是其别名 |
-| `pnpm build` | 构建公开页面和 Pagefind 搜索索引 |
-| `pnpm preview` | 预览已构建站点，不包含草稿 |
+| `pnpm dev` | Development preview, including drafts |
+| `pnpm new-post zh/name` / `pnpm new-post en/name` | Create a draft for that language; accepts `language/directory/index` and defaults to Chinese when the language is omitted |
+| `pnpm test:i18n` | Test language routes, content isolation, search indexes, and the post generator in a temporary directory |
+| `pnpm lint` | Read-only code checks |
+| `pnpm lint:fix` | Apply supported code and formatting fixes |
+| `pnpm check` | Astro, Svelte, and TypeScript checks; also available as `type-check` |
+| `pnpm build` | Build public pages and the Pagefind index |
+| `pnpm preview` | Preview the built site, excluding drafts |
 
-## 维护与许可
+## Maintenance and licensing
 
-技术栈为 Astro 5、Svelte 5、Tailwind CSS 3 和 TypeScript。依赖准确版本以 `package.json` 与 `pnpm-lock.yaml` 为准。Dependabot 每周检查 npm 与 GitHub Actions：Expressive Code 的核心、Astro 集成和插件一起更新；其他 npm 补丁更新分组，次版本单独提出 PR，大版本及 KaTeX 跨次版本升级另行评估。
+The stack uses Astro 5, Svelte 5, Tailwind CSS 3, and TypeScript. `package.json` and `pnpm-lock.yaml` define exact dependency versions. Dependabot checks npm and GitHub Actions weekly. Expressive Code's core, Astro integration, and plugins update together; other npm patch updates are grouped, minor updates receive separate PRs, and major upgrades and KaTeX minor-version changes need separate evaluation.
 
-PR（Pull Request）是将分支修改合并到 `main` 的申请。Dependabot 创建的 PR 是依赖更新建议，不代表网站出错，也不需要看到就立即合并。处理时核对更新内容与兼容性，确认最新代码的 CI 通过，再用 **Squash and merge** 合并并删除已合并分支；不适用或重复的更新应写明原因后关闭。合并会触发网站发布，完成后检查线上页面。完整约定见 [PR 处理流程](CONTRIBUTING.md#pr-处理流程)。
+Dependabot PRs are update proposals. Review compatibility, validate the current head, then use **Squash and merge** and delete the merged branch. Close duplicate or unsuitable updates with a reason. Merges trigger deployment; inspect the live site afterward. See the [PR workflow](CONTRIBUTING.md#pr-workflow).
 
-反馈问题或内容勘误可提交 [Issue](https://github.com/xw7qwq/nfuwari/issues)。提交约定见 [CONTRIBUTING.md](CONTRIBUTING.md)，Fuwari 的通用主题文档见 [上游仓库](https://github.com/saicaca/fuwari)。
+Report problems or content corrections through [Issues](https://github.com/xw7qwq/nfuwari/issues). Read [CONTRIBUTING.md](CONTRIBUTING.md) for submission conventions and the [upstream repository](https://github.com/saicaca/fuwari) for general Fuwari documentation.
 
-感谢 Fuwari、Astro 及所使用的开源项目。项目代码沿用 [MIT 许可证](LICENSE)并保留原作者署名；文章许可证在 `src/config.ts` 中配置。新增图片和其他第三方素材应遵循各自授权。
+Thanks to Fuwari, Astro, and the open-source projects used here. Project code retains the [MIT license](LICENSE) and original attribution. The post license is configured in `src/config.ts`; images and other third-party materials retain their own licenses.

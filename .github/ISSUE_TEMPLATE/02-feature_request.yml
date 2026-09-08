@@ -1,24 +1,24 @@
-name: 功能建议
-description: 提出博客阅读体验、页面或功能的改进建议。
-title: "[建议] "
+name: Feature request
+description: Suggest improvements to the blog's reading experience, pages, or features.
+title: "[Feature] "
 labels: ["enhancement"]
 body:
   - type: textarea
     id: problem
     attributes:
-      label: 使用场景
-      description: 目前遇到什么不便？建议将帮助你完成什么事情？
+      label: Use case
+      description: What is difficult today, and what would this improvement help you do?
     validations:
       required: true
   - type: textarea
     id: proposal
     attributes:
-      label: 建议的改进
-      description: 描述你希望看到的具体行为或效果。
+      label: Proposed improvement
+      description: Describe the behavior or result you would like to see.
     validations:
       required: true
   - type: textarea
     id: references
     attributes:
-      label: 相关页面或参考资料
-      description: 可附博客页面地址、截图、参考实现或其他可行方案。
+      label: Related pages or references
+      description: Include blog URLs, screenshots, reference implementations, or alternatives if useful.

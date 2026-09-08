@@ -1,11 +1,12 @@
-# 博客维护说明
+# Contributing
 
-本仓库维护 [blog.lucius7.cn](https://blog.lucius7.cn/)，基于 Fuwari 与 Astro 5。
-内容勘误、阅读体验改进和代码修复都可以通过 Issue 或 Pull Request 提交。
+This repository maintains [blog.lucius7.cn](https://blog.lucius7.cn/), built with Fuwari and Astro 5. Content corrections, reading improvements, and code fixes are welcome through Issues and pull requests.
 
-## 本地开发
+Use English for project documentation, Issues, pull requests, and commit messages. Blog posts and theme localizations retain their intended language.
 
-使用 Node.js 22（至少 22.12）和 pnpm 9.14.4，与持续集成环境保持一致：
+## Local development
+
+Use Node.js 22 (at least 22.12) and pnpm 9.14.4 to match CI:
 
 ```sh
 npm install -g pnpm@9.14.4
@@ -13,17 +14,16 @@ pnpm install --frozen-lockfile
 pnpm dev
 ```
 
-中英文文章分别位于 `src/content/posts/zh/` 与 `src/content/posts/en/`，站点与社交链接配置位于 `src/config.ts`。
-文章字段、图片与草稿见 [写作指南](docs/WRITING.zh-CN.md)，提交与上线步骤见 [部署说明](docs/DEPLOYMENT.zh-CN.md)，数学公式见 [LaTeX 说明](docs/LATEX.zh-CN.md)。
+Chinese and English posts live in `src/content/posts/zh/` and `src/content/posts/en/`; site and social link settings live in `src/config.ts`. See the [writing guide](docs/WRITING.md) for fields, images, and drafts, the [deployment guide](docs/DEPLOYMENT.md) for publishing, and the [LaTeX guide](docs/LATEX.md) for math.
 
-## 提交修改
+## Submitting changes
 
-- 一个 PR 聚焦一类变动，避免把内容修改、界面调整和依赖升级混在一起。
-- 提交名说明具体结果，例如 `docs: 更新写作说明`、`fix: 修复文章图片路径`。
-- PR 描述写清问题、修改后的行为和验证结果；界面变更附相应截图。
-- 文章修改检查标题、日期、链接、图片和公式；新建脚本默认 `draft: true`，准备公开时改为 `false`。
+- Keep each PR focused. Avoid mixing content edits, interface changes, and dependency upgrades.
+- Describe the concrete outcome in commit titles, such as `docs: clarify writing instructions` or `fix: correct post image paths`.
+- Explain the problem, resulting behavior, and validation in the PR description. Include screenshots for interface changes.
+- Check titles, dates, links, images, and math in changed posts. The generator defaults to `draft: true`; set it to `false` when ready to publish.
 
-代码或依赖变更提交前运行：
+Before submitting code or dependency changes, run:
 
 ```sh
 pnpm lint
@@ -31,32 +31,28 @@ pnpm check
 pnpm build
 ```
 
-`pnpm lint` 只检查代码；需要自动修复时运行 `pnpm lint:fix`，然后检查产生的修改。
-构建会生成静态页面和 Pagefind 搜索索引，可用 `pnpm preview` 检查最终效果。
-只修改文档时，可在 PR 中说明检查范围和未运行构建的原因。
+`pnpm lint` is read-only. Use `pnpm lint:fix` for automatic fixes, then review its changes. The build generates static pages and a Pagefind index; use `pnpm preview` to inspect the result. For documentation-only changes, describe the checks performed and why a local build was omitted, if applicable.
 
-## 依赖更新
+## Dependency updates
 
-修改依赖时同步提交 `package.json` 与 `pnpm-lock.yaml`。
-检查发布说明、版本兼容性和构建结果；Astro、Svelte 等主要依赖的大版本升级需单独验证。安全审计需同时查看依赖路径和实际输入来源，不能把静态构建工具的告警直接等同于线上漏洞；当前修复和剩余适用范围见 [依赖安全复核记录](docs/DEPENDENCY-REVIEW.zh-CN.md)。
-Dependabot PR 也应经过检查与页面验证，不因来自机器人或检查通过就盲目自动合并。
+Commit `package.json` and `pnpm-lock.yaml` together when changing dependencies. Review release notes, compatibility, and build results. Validate major upgrades to core dependencies such as Astro and Svelte separately. Security reviews must consider dependency paths and actual input sources; an alert in a static build tool does not by itself establish a live-site vulnerability. See the [dependency security review](docs/DEPENDENCY-REVIEW.md) for completed fixes and remaining exposure assessments.
 
-Expressive Code 的核心、Astro 集成和插件由 Dependabot 放在同一组更新，避免只升级核心而保留另一套旧渲染器。KaTeX 更新需核对 `rehype-katex` 使用的渲染版本与直接依赖提供的 CSS、字体是否一致。当前文章目录为空，涉及 Markdown、公式或代码块的升级应使用临时文章验证实际渲染，验证后删除临时文件。
+Dependabot PRs need the same review and page validation as other updates. Do not merge solely because a bot opened the PR or CI passed.
 
-双语路由、内容筛选、搜索或新建脚本的修改还需运行 `pnpm test:i18n`，并用 `pnpm preview` 分别检查 `/zh/`、`/en/`：同一检索词只返回当前语言内容，跨语言切换更新整页界面，没有译文时能到目标语言首页。该测试在临时目录生成文章，不会修改真实文章。
+Dependabot groups Expressive Code's core, Astro integration, and plugins to avoid mixing renderer versions. For KaTeX updates, confirm that the renderer used by `rehype-katex` matches the direct dependency's CSS and fonts. The post directory is currently empty: use temporary posts to validate changes affecting Markdown, math, or code blocks, then remove the fixtures before committing or publishing.
 
-## PR 处理流程
+Changes to language routing, content filtering, search, or the post generator also require `pnpm test:i18n`. Preview both `/zh/` and `/en/`: the same query should return only the active language, a language switch should update the whole interface, and a missing translation should lead to the target language's home page. The test creates posts in a temporary directory without changing real content. See the [bilingual content guide](docs/I18N.md).
 
-1. 阅读变更和官方发布说明，标题使用 `类型(范围): 具体改动`，说明中写明目的、兼容性和验证结果。
-2. 同步最新 `main`，处理冲突；不要把旧提交的绿色检查当作当前版本已经通过。
-3. 等待当前 PR 的 CI 通过。依赖更新还要验证受影响的公式、代码块或页面；只修改文档时说明检查范围。
-4. 已满足条件的 PR 使用 **Squash and merge** 合并，保留一条清晰的主线提交，并删除已合并的远程分支。重复、过时或不兼容的 PR 写明理由后关闭。
-5. 确认主分支 CI 与 GitHub Pages 部署成功，并打开线上网站检查。多个依赖 PR 连续合并时，在后续 PR 上验证前面已合并的更新组合。
+## PR workflow
 
-无需为了清空列表而合并未经验证的更新；Dependabot 之后仍会按每周计划提出新 PR。
+1. Review the changes and official release notes. Use a title such as `type(scope): concrete change`, and describe purpose, compatibility, and validation.
+2. Sync the latest `main` and resolve conflicts. A green check on an older commit does not validate the current head.
+3. Wait for the current PR's CI to pass. For dependency changes, inspect affected math, code blocks, or pages. State the check scope for documentation-only changes.
+4. Use **Squash and merge** once the PR is ready, then delete the merged remote branch. Close duplicate, outdated, or incompatible PRs with an explanation.
+5. Confirm that main-branch CI and GitHub Pages deployment succeed, then inspect the live site. When merging several dependency updates, validate their combined effect in subsequent PRs.
 
-## 发布
+Do not merge unverified updates simply to empty the PR list. Dependabot will continue its weekly checks.
 
-`main` 分支更新后，GitHub Actions 自动构建并发布到 GitHub Pages，域名通过阿里云 ESA 加速。
-合并前确认内容已准备发布；合并后查看 Actions 结果，并检查受影响的线上页面。
-域名、Pages 与 ESA 的配置说明见 [部署说明](docs/DEPLOYMENT.zh-CN.md)。
+## Publishing
+
+Updates to `main` trigger a GitHub Actions build and deployment to GitHub Pages. Alibaba Cloud ESA serves the custom domain. Confirm that content is ready before merging, then check Actions and affected live pages. See the [deployment guide](docs/DEPLOYMENT.md) for domain, Pages, and ESA settings.
