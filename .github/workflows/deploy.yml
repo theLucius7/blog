@@ -15,6 +15,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Check out repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
@@ -23,9 +24,10 @@ jobs:
         with:
           node-version: 22
           package-manager: pnpm@9.14.4
-          build-cmd: pnpm check && pnpm build
+          build-cmd: pnpm lint && pnpm check && pnpm build
 
   deploy:
+    timeout-minutes: 10
     needs: build
     runs-on: ubuntu-latest
     permissions:

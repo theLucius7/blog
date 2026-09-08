@@ -1,99 +1,108 @@
-# 🍥Fuwari  
-![Node.js >= 20](https://img.shields.io/badge/node.js-%3E%3D20-brightgreen) 
-![pnpm >= 9](https://img.shields.io/badge/pnpm-%3E%3D9-blue) 
-[![DeepWiki](https://img.shields.io/badge/DeepWiki-saicaca%2Ffuwari-blue.svg?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAAyCAYAAAAnWDnqAAAAAXNSR0IArs4c6QAAA05JREFUaEPtmUtyEzEQhtWTQyQLHNak2AB7ZnyXZMEjXMGeK/AIi+QuHrMnbChYY7MIh8g01fJoopFb0uhhEqqcbWTp06/uv1saEDv4O3n3dV60RfP947Mm9/SQc0ICFQgzfc4CYZoTPAswgSJCCUJUnAAoRHOAUOcATwbmVLWdGoH//PB8mnKqScAhsD0kYP3j/Yt5LPQe2KvcXmGvRHcDnpxfL2zOYJ1mFwrryWTz0advv1Ut4CJgf5uhDuDj5eUcAUoahrdY/56ebRWeraTjMt/00Sh3UDtjgHtQNHwcRGOC98BJEAEymycmYcWwOprTgcB6VZ5JK5TAJ+fXGLBm3FDAmn6oPPjR4rKCAoJCal2eAiQp2x0vxTPB3ALO2CRkwmDy5WohzBDwSEFKRwPbknEggCPB/imwrycgxX2NzoMCHhPkDwqYMr9tRcP5qNrMZHkVnOjRMWwLCcr8ohBVb1OMjxLwGCvjTikrsBOiA6fNyCrm8V1rP93iVPpwaE+gO0SsWmPiXB+jikdf6SizrT5qKasx5j8ABbHpFTx+vFXp9EnYQmLx02h1QTTrl6eDqxLnGjporxl3NL3agEvXdT0WmEost648sQOYAeJS9Q7bfUVoMGnjo4AZdUMQku50McDcMWcBPvr0SzbTAFDfvJqwLzgxwATnCgnp4wDl6Aa+Ax283gghmj+vj7feE2KBBRMW3FzOpLOADl0Isb5587h/U4gGvkt5v60Z1VLG8BhYjbzRwyQZemwAd6cCR5/XFWLYZRIMpX39AR0tjaGGiGzLVyhse5C9RKC6ai42ppWPKiBagOvaYk8lO7DajerabOZP46Lby5wKjw1HCRx7p9sVMOWGzb/vA1hwiWc6jm3MvQDTogQkiqIhJV0nBQBTU+3okKCFDy9WwferkHjtxib7t3xIUQtHxnIwtx4mpg26/HfwVNVDb4oI9RHmx5WGelRVlrtiw43zboCLaxv46AZeB3IlTkwouebTr1y2NjSpHz68WNFjHvupy3q8TFn3Hos2IAk4Ju5dCo8B3wP7VPr/FGaKiG+T+v+TQqIrOqMTL1VdWV1DdmcbO8KXBz6esmYWYKPwDL5b5FA1a0hwapHiom0r/cKaoqr+27/XcrS5UwSMbQAAAABJRU5ErkJggg==)](https://deepwiki.com/saicaca/fuwari)
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fsaicaca%2Ffuwari.svg?type=shield&issueType=license)](https://app.fossa.com/projects/git%2Bgithub.com%2Fsaicaca%2Ffuwari?ref=badge_shield&issueType=license)
+# Lucius7 的博客
 
-A static blog template built with [Astro](https://astro.build).
+[![CI](https://github.com/theLucius7/blog/actions/workflows/build.yml/badge.svg)](https://github.com/theLucius7/blog/actions/workflows/build.yml)
+[![GitHub Pages](https://github.com/theLucius7/blog/actions/workflows/deploy.yml/badge.svg)](https://github.com/theLucius7/blog/actions/workflows/deploy.yml)
 
-[**🖥️ Live Demo (Vercel)**](https://fuwari.vercel.app)
+这是 [blog.lucius7.cn](https://blog.lucius7.cn/) 的源码仓库，基于 [Fuwari](https://github.com/saicaca/fuwari) 和 Astro 构建。文章使用 Markdown 编写，通过 GitHub Actions 构建并部署到 GitHub Pages，域名通过阿里云 ESA 加速访问。
 
-![Preview Image](https://raw.githubusercontent.com/saicaca/resource/main/fuwari/home.png)
+## 当前状态
 
-🌏 README in
-[**中文**](https://github.com/saicaca/fuwari/blob/main/docs/README.zh-CN.md) /
-[**日本語**](https://github.com/saicaca/fuwari/blob/main/docs/README.ja.md) /
-[**한국어**](https://github.com/saicaca/fuwari/blob/main/docs/README.ko.md) /
-[**Español**](https://github.com/saicaca/fuwari/blob/main/docs/README.es.md) /
-[**ไทย**](https://github.com/saicaca/fuwari/blob/main/docs/README.th.md) /
-[**Tiếng Việt**](https://github.com/saicaca/fuwari/blob/main/docs/README.vi.md) /
-[**Bahasa Indonesia**](https://github.com/saicaca/fuwari/blob/main/docs/README.id.md) (Provided by the community and may not always be up-to-date)
+截至 2026-09-08，站点已完成部署与基础配置，内容仍在整理中。
 
-## ✨ Features
+| 项目 | 状态 |
+| --- | --- |
+| 线上地址 | [https://blog.lucius7.cn/](https://blog.lucius7.cn/)，使用独立域名根路径 |
+| 自动发布 | `main` 更新后检查、构建并部署到 GitHub Pages |
+| 数学公式 | `remark-math` + `rehype-katex`，支持行内公式与独立公式 |
+| 阅读功能 | 明暗主题、文章分类与标签、Pagefind 搜索、RSS、站点地图 |
+| 社交链接 | 已配置 GitHub、X、LinkedIn |
+| 页脚备案 | [蜀ICP备2026023763号-1](https://beian.miit.gov.cn/) |
+| 站点内容 | 仍保留 Fuwari 标题、副标题、示例头像、个人介绍、关于页及示例文章，待替换为个人内容 |
 
-- [x] Built with [Astro](https://astro.build) and [Tailwind CSS](https://tailwindcss.com)
-- [x] Smooth animations and page transitions
-- [x] Light / dark mode
-- [x] Customizable theme colors & banner
-- [x] Responsive design
-- [x] Search functionality with [Pagefind](https://pagefind.app/)
-- [x] [Markdown extended features](https://github.com/saicaca/fuwari?tab=readme-ov-file#-markdown-extended-syntax)
-- [x] Table of contents
-- [x] RSS feed
+当前仓库由 `theLucius7/meow` 更名而来；原 AstroPaper 博客仓库已删除，旧文章尚未迁入此仓库。项目以当前源码与线上页面为准。
 
-## 🚀 Getting Started
+公开访问的 HTTPS 由 ESA 提供。GitHub Pages 源站证书仍需单独处理，具体状态与排查入口见 [部署说明](docs/DEPLOYMENT.zh-CN.md#域名与-https)。
 
-1. Create your blog repository:
-    - [Generate a new repository](https://github.com/saicaca/fuwari/generate) from this template or fork this repository.
-    - Or run one of the following commands:
-       ```sh
-       npm create fuwari@latest
-       yarn create fuwari
-       pnpm create fuwari@latest
-       bun create fuwari@latest
-       deno run -A npm:create-fuwari@latest
-       ```
-2. To edit your blog locally, clone your repository, run `pnpm install` to install dependencies.
-    - Install [pnpm](https://pnpm.io) `npm install -g pnpm` if you haven't.
-3. Edit the config file `src/config.ts` to customize your blog.
-4. Run `pnpm new-post <filename>` to create a new post and edit it in `src/content/posts/`.
-5. Deploy your blog to Vercel, Netlify, GitHub Pages, etc. following [the guides](https://docs.astro.build/en/guides/deploy/). You need to edit the site configuration in `astro.config.mjs` before deployment.
+## 本地运行
 
-## 📝 Frontmatter of Posts
+使用 **Node.js 22（至少 22.12）** 和 **pnpm 9.14.4**。项目通过 `.nvmrc`、`engines` 与 `packageManager` 记录环境要求。
+
+```sh
+git clone https://github.com/theLucius7/blog.git
+cd blog
+nvm install
+nvm use
+npm install -g pnpm@9.14.4
+pnpm install --frozen-lockfile
+pnpm dev
+```
+
+没有使用 nvm 时，直接安装符合要求的 Node.js 版本，跳过两条 `nvm` 命令。浏览器打开终端显示的地址，默认是 `http://localhost:4321/`。
+
+## 写作与配置
+
+创建一篇 Markdown 文章：
+
+```sh
+pnpm new-post my-first-post
+```
+
+编辑生成的 `src/content/posts/my-first-post.md`。脚本默认生成 `draft: false`，未完成的文章请先改成 `true`，准备发布时再改回 `false`。
 
 ```yaml
 ---
-title: My First Blog Post
-published: 2023-09-09
-description: This is the first post of my new Astro blog.
-image: ./cover.jpg
-tags: [Foo, Bar]
-category: Front-end
-draft: false
-lang: jp      # Set only if the post's language differs from the site's language in `config.ts`
+title: 我的第一篇文章
+published: 2026-09-08
+description: 这篇文章的简短介绍
+image: ''
+tags: [笔记]
+category: 日常
+draft: true
+lang: zh_CN
 ---
 ```
 
-## 🧩 Markdown Extended Syntax
+正文写在第二个 `---` 下方。行内公式使用 `$E = mc^2$`；独立公式的两个 `$$` 各占一行。矩阵、多行推导与常见问题见 [LaTeX 写作说明](docs/LATEX.zh-CN.md)。
 
-In addition to Astro's default support for [GitHub Flavored Markdown](https://github.github.com/gfm/), several extra Markdown features are included:
+| 文件或目录 | 用途 |
+| --- | --- |
+| `src/config.ts` | 博客标题、语言、头像、个人介绍、导航和社交链接 |
+| `src/content/posts/` | Markdown 文章及文章资源 |
+| `src/content/spec/about.md` | 关于页面 |
+| `src/content/config.ts` | 文章字段与校验规则 |
+| `src/components/Footer.astro` | 页脚及备案链接 |
+| `astro.config.mjs` | 站点地址、Astro 集成与 Markdown 插件 |
+| `public/` | 直接发布的静态资源和 `CNAME` |
+| `.github/workflows/` | 检查与 GitHub Pages 发布流程 |
 
-- Admonitions ([Preview and Usage](https://fuwari.vercel.app/posts/markdown-extended/#admonitions))
-- GitHub repository cards ([Preview and Usage](https://fuwari.vercel.app/posts/markdown-extended/#github-repository-cards))
-- Enhanced code blocks with Expressive Code ([Preview](https://fuwari.vercel.app/posts/expressive-code/) / [Docs](https://expressive-code.com/))
+## 检查与发布
 
-## ⚡ Commands
+```sh
+pnpm lint
+pnpm check
+pnpm build
+pnpm preview
+```
 
-All commands are run from the root of the project, from a terminal:
+- `pnpm lint`：只读检查代码；`pnpm lint:fix` 可以自动修复部分问题。
+- `pnpm check`：检查 Astro、Svelte 和 TypeScript；`pnpm type-check` 是相同检查的别名。
+- `pnpm build`：生成 `dist/` 静态页面及 Pagefind 搜索索引。
+- `pnpm preview`：预览已构建的站点。
 
-| Command                    | Action                                              |
-|:---------------------------|:----------------------------------------------------|
-| `pnpm install`             | Installs dependencies                               |
-| `pnpm dev`                 | Starts local dev server at `localhost:4321`         |
-| `pnpm build`               | Build your production site to `./dist/`             |
-| `pnpm preview`             | Preview your build locally, before deploying        |
-| `pnpm check`               | Run checks for errors in your code                  |
-| `pnpm format`              | Format your code using Biome                        |
-| `pnpm new-post <filename>` | Create a new post                                   |
-| `pnpm astro ...`           | Run CLI commands like `astro add`, `astro check`    |
-| `pnpm astro --help`        | Get help using the Astro CLI                        |
+建议通过 PR 提交修改，确认 CI 通过后合并到 `main`。发布工作流会再次运行检查与完整构建；发布结果可在 [Actions](https://github.com/theLucius7/blog/actions/workflows/deploy.yml) 查看。只需提交源码，不要提交 `dist/` 或 `node_modules/`。
 
-## ✏️ Contributing
+GitHub Pages、独立域名、ESA 与缓存配置见 [部署说明](docs/DEPLOYMENT.zh-CN.md)。
 
-Check out the [Contributing Guide](https://github.com/saicaca/fuwari/blob/main/CONTRIBUTING.md) for details on how to contribute to this project.
+## 维护约定
 
-## 📄 License
+技术栈为 Astro 5、Svelte 5、Tailwind CSS 3 与 TypeScript。依赖的准确版本以 `package.json` 和 `pnpm-lock.yaml` 为准。
 
-This project is licensed under the MIT License.
+Dependabot 每周检查依赖：补丁更新合并成一组，次版本更新单独提出 PR，大版本升级另行规划。KaTeX 的渲染器、样式与字体必须使用一致版本，暂不单独自动升级 KaTeX 次版本。所有更新都需验证后合并。
 
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fsaicaca%2Ffuwari.svg?type=large&issueType=license)](https://app.fossa.com/projects/git%2Bgithub.com%2Fsaicaca%2Ffuwari?ref=badge_large&issueType=license)
+问题反馈、内容勘误和改进建议可提交 [Issue](https://github.com/theLucius7/blog/issues)。修改范围、提交说明和验证要求见 [CONTRIBUTING.md](CONTRIBUTING.md)。Fuwari 模板的通用说明与多语言文档请查阅 [上游仓库](https://github.com/saicaca/fuwari)。
+
+## 致谢与许可
+
+感谢 [Fuwari](https://github.com/saicaca/fuwari)、[Astro](https://astro.build/) 及所使用的开源项目。
+
+项目代码沿用 [MIT 许可证](LICENSE)，保留原作者署名。文章版权配置见 `src/config.ts`；示例文章、图片与其他第三方素材仍需遵循各自的授权说明。
