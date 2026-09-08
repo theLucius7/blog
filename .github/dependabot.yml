@@ -12,8 +12,13 @@ updates:
     commit-message:
       prefix: "chore(deps)"
     groups:
+      # Keep the renderer, core and plugins on a compatible release together.
+      expressive-code:
+        patterns: ["@expressive-code/*", "astro-expressive-code"]
+        update-types: [minor, patch]
       patch-updates:
         patterns: ["*"]
+        exclude-patterns: ["@expressive-code/*", "astro-expressive-code"]
         update-types: [patch]
     pull-request-branch-name:
       separator: "-"
