@@ -58,7 +58,7 @@ pnpm build
 pnpm preview
 ```
 
-构建会排除草稿，生成 `dist/` 中的静态页面及 Pagefind 搜索索引。用预览地址检查标题、图片、公式、链接和搜索；再次修改后重新运行 `pnpm build`。`pnpm lint` 不会修改文件，需要自动修复时运行 `pnpm lint:fix` 并检查其改动。
+构建会先清除 Astro 内容缓存，再排除草稿并生成 `dist/` 中的静态页面及 Pagefind 搜索索引，避免已删除文章残留。用预览地址检查标题、图片、公式、链接和搜索；再次修改后重新运行 `pnpm build`。`pnpm lint` 不会修改文件，需要自动修复时运行 `pnpm lint:fix` 并检查其改动。
 
 ### 4. 提交并推送
 
