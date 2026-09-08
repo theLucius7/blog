@@ -38,7 +38,7 @@ pnpm build
 ## 依赖更新
 
 修改依赖时同步提交 `package.json` 与 `pnpm-lock.yaml`。
-检查发布说明、版本兼容性和构建结果；Astro、Svelte 等主要依赖的大版本升级需单独验证。
+检查发布说明、版本兼容性和构建结果；Astro、Svelte 等主要依赖的大版本升级需单独验证。安全审计需同时查看依赖路径和实际输入来源，不能把静态构建工具的告警直接等同于线上漏洞；当前修复和剩余适用范围见 [依赖安全复核记录](docs/DEPENDENCY-REVIEW.zh-CN.md)。
 Dependabot PR 也应经过检查与页面验证，不因来自机器人或检查通过就盲目自动合并。
 
 Expressive Code 的核心、Astro 集成和插件由 Dependabot 放在同一组更新，避免只升级核心而保留另一套旧渲染器。KaTeX 更新需核对 `rehype-katex` 使用的渲染版本与直接依赖提供的 CSS、字体是否一致。当前文章目录为空，涉及 Markdown、公式或代码块的升级应使用临时文章验证实际渲染，验证后删除临时文件。
