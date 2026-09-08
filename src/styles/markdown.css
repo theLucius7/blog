@@ -112,6 +112,12 @@
 
     }
 
+    /* Native scrolling before the lazy custom scrollbar initializes, or without JS.
+       https://katex.org/docs/issues.html#css-customization */
+    .katex-display:not([data-scrollbar-initialized]) {
+        overflow: auto hidden;
+    }
+
     .katex-display-container {
         max-width: 100%;
         overflow-x: auto;

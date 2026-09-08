@@ -24,6 +24,8 @@ pnpm new-post my-first-post
 
 博客名称、语言、头像和个人介绍在 `src/config.ts` 中配置；关于页面在 `src/content/spec/about.md`。当前保留 Fuwari 模板的示例内容和外观。
 
+文章已支持 LaTeX 数学公式：行内使用 `$E = mc^2$`，独立公式使用上下各占一行的 `$$`。矩阵、多行推导及注意事项见 [LaTeX 写作说明](./LATEX.zh-CN.md)。
+
 ## 发布更新
 
 ```sh
