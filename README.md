@@ -1,7 +1,7 @@
 # Lucius7's Blog
 
-[![CI](https://github.com/theLucius7/blog/actions/workflows/build.yml/badge.svg)](https://github.com/theLucius7/blog/actions/workflows/build.yml)
-[![GitHub Pages](https://github.com/theLucius7/blog/actions/workflows/deploy.yml/badge.svg)](https://github.com/theLucius7/blog/actions/workflows/deploy.yml)
+[![CI](https://github.com/xw7qwq/nfuwari/actions/workflows/build.yml/badge.svg)](https://github.com/xw7qwq/nfuwari/actions/workflows/build.yml)
+[![GitHub Pages](https://github.com/xw7qwq/nfuwari/actions/workflows/deploy.yml/badge.svg)](https://github.com/xw7qwq/nfuwari/actions/workflows/deploy.yml)
 
 [blog.lucius7.cn](https://blog.lucius7.cn/) 的源码仓库，基于 [Fuwari](https://github.com/saicaca/fuwari) 和 Astro。文章用 Markdown 编写，合并到 `main` 后由 GitHub Actions 自动发布到 GitHub Pages，通过阿里云 ESA 提供域名访问。
 
@@ -29,8 +29,8 @@
 需要 Git、**Node.js 22（至少 22.12）** 和 **pnpm 9.14.4**。先安装 Node.js，再在终端执行：
 
 ```sh
-git clone https://github.com/theLucius7/blog.git
-cd blog
+git clone https://github.com/xw7qwq/nfuwari.git
+cd nfuwari
 npm install -g pnpm@9.14.4
 pnpm install --frozen-lockfile
 pnpm dev
@@ -95,7 +95,7 @@ git commit -m "docs: 发布第一篇文章"
 git push -u origin post/my-first-post
 ```
 
-若文章包含图片，把对应图片路径一并加入 `git add`。到 [GitHub 仓库](https://github.com/theLucius7/blog) 创建该分支到 `main` 的 Pull Request，确认 CI 通过后合并。随后在 [发布工作流](https://github.com/theLucius7/blog/actions/workflows/deploy.yml) 查看结果，成功后打开网站检查。
+若文章包含图片，把对应图片路径一并加入 `git add`。到 [GitHub 仓库](https://github.com/xw7qwq/nfuwari) 创建该分支到 `main` 的 Pull Request，确认 CI 通过后合并。随后在 [发布工作流](https://github.com/xw7qwq/nfuwari/actions/workflows/deploy.yml) 查看结果，成功后打开网站检查。
 
 日常同步、更新已有文章、发布失败与缓存排查见 [部署指南](docs/DEPLOYMENT.zh-CN.md)。只提交源码和文章资源，不提交 `dist/`、`.astro/` 或 `node_modules/`。
 
@@ -147,6 +147,6 @@ git push -u origin post/my-first-post
 
 PR（Pull Request）是将分支修改合并到 `main` 的申请。Dependabot 创建的 PR 是依赖更新建议，不代表网站出错，也不需要看到就立即合并。处理时核对更新内容与兼容性，确认最新代码的 CI 通过，再用 **Squash and merge** 合并并删除已合并分支；不适用或重复的更新应写明原因后关闭。合并会触发网站发布，完成后检查线上页面。完整约定见 [PR 处理流程](CONTRIBUTING.md#pr-处理流程)。
 
-反馈问题或内容勘误可提交 [Issue](https://github.com/theLucius7/blog/issues)。提交约定见 [CONTRIBUTING.md](CONTRIBUTING.md)，Fuwari 的通用主题文档见 [上游仓库](https://github.com/saicaca/fuwari)。
+反馈问题或内容勘误可提交 [Issue](https://github.com/xw7qwq/nfuwari/issues)。提交约定见 [CONTRIBUTING.md](CONTRIBUTING.md)，Fuwari 的通用主题文档见 [上游仓库](https://github.com/saicaca/fuwari)。
 
 感谢 Fuwari、Astro 及所使用的开源项目。项目代码沿用 [MIT 许可证](LICENSE)并保留原作者署名；文章许可证在 `src/config.ts` 中配置。新增图片和其他第三方素材应遵循各自授权。
