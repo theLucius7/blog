@@ -2,7 +2,7 @@
 
 项目沿用 Fuwari 的 `remark-math` + `rehype-katex` 配置，在构建时生成公式 HTML 和 MathML。KaTeX 样式及字体随网站一起发布，不需要额外添加 CDN 或浏览器渲染脚本。
 
-编辑 `src/content/posts/` 下的 Markdown 文章，在 frontmatter（文件头的第二个 `---`）之后使用下面的写法。
+编辑 `src/content/posts/` 下的 Markdown 文章，在 frontmatter（文件头的第二个 `---`）之后使用下面的写法。新建文章、图片与草稿说明见 [写作指南](WRITING.zh-CN.md)。本页示例只保存在使用文档中，不作为文章发布。
 
 ## 行内公式
 
@@ -65,7 +65,8 @@ $$
 - 采用 `$...$` 和 `$$` 分隔符；此 Markdown 配置不使用 `\(...\)` 或 `\[...\]`。
 - 独立长公式可在公式区域横向滚动，也可以使用 `aligned` 手动拆行。
 - 这里支持 KaTeX 的数学命令。完整 `.tex` 文档的 `\documentclass`、`\usepackage` 等不适用于文章正文；可用命令见官方支持表。
-- 执行 `pnpm dev` 预览，执行 `pnpm check && pnpm build` 检查并构建。提交到 `main` 后 GitHub Pages 自动更新。
+- 执行 `pnpm dev` 可以预览草稿中的公式。准备公开时把文章改为 `draft: false`，运行 `pnpm lint`、`pnpm check`、`pnpm build` 后，用 `pnpm preview` 查看生产效果。生产构建会排除草稿。
+- 按 [部署指南](DEPLOYMENT.zh-CN.md#日常写作与发布) 提交并合并到 `main` 后，GitHub Pages 自动更新。
 
 ## 官方参考与配置位置
 
@@ -75,4 +76,4 @@ $$
 - [KaTeX 支持的命令](https://katex.org/docs/supported.html)。
 - [KaTeX 官方横向滚动样式](https://katex.org/docs/issues.html#css-customization)：项目在 `src/styles/markdown.css` 中应用。
 
-现有 [Markdown 示例文章](https://blog.lucius7.cn/posts/markdown/) 可查看行内公式、积分和长公式的显示效果。
+模板示例文章已删除。需要试写公式时，可用 `pnpm new-post math-notes` 创建草稿，把本页示例复制到正文后执行 `pnpm dev` 预览。
