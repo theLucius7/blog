@@ -2,7 +2,7 @@
 
 项目沿用 Fuwari 的 `remark-math` + `rehype-katex` 配置，在构建时生成公式 HTML 和 MathML。KaTeX 样式及字体随网站一起发布，不需要额外添加 CDN 或浏览器渲染脚本。
 
-编辑 `src/content/posts/` 下的 Markdown 文章，在 frontmatter（文件头的第二个 `---`）之后使用下面的写法。新建文章、图片与草稿说明见 [写作指南](WRITING.zh-CN.md)。本页示例只保存在使用文档中，不作为文章发布。
+编辑 `src/content/posts/zh/` 或 `src/content/posts/en/` 下的 Markdown 文章，在 frontmatter（文件头的第二个 `---`）之后使用下面的写法。新建文章、图片与草稿说明见 [写作指南](WRITING.zh-CN.md)。本页示例只保存在使用文档中，不作为文章发布。
 
 ## 行内公式
 
@@ -76,4 +76,4 @@ $$
 - [KaTeX 支持的命令](https://katex.org/docs/supported.html)。
 - [KaTeX 官方横向滚动样式](https://katex.org/docs/issues.html#css-customization)：项目在 `src/styles/markdown.css` 中应用。
 
-模板示例文章已删除。需要试写公式时，可用 `pnpm new-post math-notes` 创建草稿，把本页示例复制到正文后执行 `pnpm dev` 预览。
+模板示例文章已删除。需要试写公式时，可用 `pnpm new-post zh/math-notes` 创建草稿，把本页示例复制到正文后执行 `pnpm dev` 预览。

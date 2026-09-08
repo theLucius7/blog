@@ -7,11 +7,12 @@
 
 ## 当前状态
 
-截至 2026-09-08，模板示例文章、配图和默认个人资料已清理，站点名称为「Lucius7's Blog」，界面语言为中文。文章目录从空白开始，没有公开文章时首页显示空状态；原 AstroPaper 博客的文章尚未迁入。
+截至 2026-09-09，站点名称为「Lucius7's Blog」，提供独立的[中文入口](https://blog.lucius7.cn/zh/)与[英文入口](https://blog.lucius7.cn/en/)。模板示例文章、配图和默认个人资料已清理。文章目录从空白开始，没有公开文章时首页显示空状态；原 AstroPaper 博客的文章尚未迁入。
 
 | 项目 | 当前配置 |
 | --- | --- |
-| 网站 | [blog.lucius7.cn](https://blog.lucius7.cn/)，独立域名根路径 |
+| 网站 | 根入口跳转 `/zh/`，中文 `/zh/`、英文 `/en/` |
+| 双语 | 文章分目录，列表、分类标签、前后篇导航、RSS 和搜索按语言隔离 |
 | 作者 | Lucius7 |
 | 头像 | QQ 3012967200 的头像，使用腾讯 HTTPS 头像接口 |
 | 站点图标 | `public/icon.svg`，L7 字标 |
@@ -46,11 +47,11 @@ pnpm dev
 git switch main
 git pull --ff-only
 git switch -c post/my-first-post
-pnpm new-post my-first-post
+pnpm new-post zh/my-first-post
 pnpm dev
 ```
 
-编辑生成的 `src/content/posts/my-first-post.md`。脚本默认生成 `draft: true` 和 `lang: zh_CN`；正文写在第二个 `---` 下方：
+编辑生成的 `src/content/posts/zh/my-first-post.md`。脚本默认生成 `draft: true`，`zh/` 文章生成 `lang: zh_CN`，`en/` 文章生成 `lang: en`；正文写在第二个 `---` 下方：
 
 ```markdown
 ---
@@ -71,7 +72,9 @@ lang: zh_CN
 
 将日期改为实际发布日期。用 `pnpm dev` 预览草稿；准备公开时改为 `draft: false`。**`pnpm build` 和线上发布会排除草稿**，所以生产预览中看不到草稿是正常行为。
 
-多图文章可以用 `pnpm new-post my-first-post/index` 创建文章目录，正文和图片放在一起。单文件和目录式二选一，不要同时创建同名文章。字段、图片路径、文章地址与 Markdown 示例见 [完整写作指南](docs/WRITING.zh-CN.md)，数学公式见 [LaTeX 指南](docs/LATEX.zh-CN.md)。
+多图文章可以用 `pnpm new-post zh/my-first-post/index` 创建文章目录，正文和图片放在一起。单文件和目录式二选一，不要同时创建同名文章。字段、图片路径、文章地址与 Markdown 示例见 [完整写作指南](docs/WRITING.zh-CN.md)，数学公式见 [LaTeX 指南](docs/LATEX.zh-CN.md)。
+
+要写英文文章，运行 `pnpm new-post en/my-first-post`，编辑 `src/content/posts/en/my-first-post.md`。中英文可以独立发布；同名路径自动对应译文，异名路径可填写相同的 `translationKey`。导航的「中文 / English」切换会优先进入对应译文，没有译文则进入目标语言首页。完整规则见 [双语维护指南](docs/I18N.zh-CN.md)。
 
 ## 检查并发布
 
@@ -90,7 +93,7 @@ pnpm preview
 
 ```sh
 git status
-git add src/content/posts/my-first-post.md
+git add src/content/posts/zh/my-first-post.md
 git commit -m "docs: 发布第一篇文章"
 git push -u origin post/my-first-post
 ```
@@ -103,9 +106,10 @@ git push -u origin post/my-first-post
 
 | 文件或目录 | 用途 |
 | --- | --- |
-| `src/content/posts/` | 文章 Markdown 与文章专用图片 |
-| `src/content/spec/about.md` | 关于页面 |
-| `src/config.ts` | 站点名称、语言、主题色、头像、简介、导航、社交链接和文章许可证 |
+| `src/content/posts/zh/`、`src/content/posts/en/` | 中文、英文文章 Markdown 与文章专用图片 |
+| `src/content/spec/zh/about.md`、`src/content/spec/en/about.md` | 中英文关于页面 |
+| `src/i18n/` | 语言标识与界面词条 |
+| `src/config.ts` | 站点名称、主题色、头像、简介、导航、社交链接和文章许可证 |
 | `src/content/config.ts` | 文章 frontmatter 字段与校验规则 |
 | `src/components/Footer.astro` | 页脚及备案链接 |
 | `src/assets/` | 由 Astro 处理的站点资源，可按需创建目录 |
@@ -123,7 +127,7 @@ git push -u origin post/my-first-post
 
 | 配置项 | 用途 |
 | --- | --- |
-| `siteConfig.title`、`subtitle`、`lang` | 网站名称、副标题和界面语言 |
+| `siteConfig.title`、`subtitle` | 网站名称、副标题；界面语言由 `/zh/` 或 `/en/` 路径决定 |
 | `siteConfig.themeColor.hue` | 主题色；范围为 0–360 |
 | `siteConfig.banner.enable`、`src` | 是否启用横幅及横幅图片 |
 | `profileConfig.avatar`、`name`、`bio` | 头像、作者名和简介 |
@@ -134,7 +138,8 @@ git push -u origin post/my-first-post
 | 命令 | 用途 |
 | --- | --- |
 | `pnpm dev` | 开发预览，包含草稿 |
-| `pnpm new-post 名称` | 创建 `.md` 草稿，也可传 `目录/index` |
+| `pnpm new-post zh/名称` / `pnpm new-post en/名称` | 按语言创建 `.md` 草稿，也可传 `语言/目录/index`；省略语言默认中文 |
+| `pnpm test:i18n` | 在临时目录验证双语路由、文章隔离、搜索索引与写作脚本 |
 | `pnpm lint` | 只读代码检查 |
 | `pnpm lint:fix` | 自动修复部分代码格式与检查问题 |
 | `pnpm check` | Astro、Svelte 和 TypeScript 检查；`type-check` 是其别名 |

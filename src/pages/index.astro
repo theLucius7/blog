@@ -1,0 +1,6 @@
+---
+import { defaultLocale } from "@i18n/locales";
+import { localeUrl } from "@utils/url-utils";
+
+return Astro.redirect(localeUrl(defaultLocale), 301);
+---

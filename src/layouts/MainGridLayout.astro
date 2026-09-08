@@ -5,6 +5,8 @@ import Navbar from "@components/Navbar.astro";
 import SideBar from "@components/widget/SideBar.astro";
 import type { MarkdownHeading } from "astro";
 import { Icon } from "astro-icon/components";
+import { getLocaleFromPath, type Locale } from "@/i18n/locales";
+import { localeUrl } from "@/utils/url-utils";
 import ImageWrapper from "../components/misc/ImageWrapper.astro";
 import TOC from "../components/widget/TOC.astro";
 import { siteConfig } from "../config";
@@ -22,6 +24,7 @@ interface Props {
 	lang?: string;
 	setOGTypeArticle?: boolean;
 	headings?: MarkdownHeading[];
+	alternates?: Array<{ locale: Locale; url: string }>;
 }
 
 const {
@@ -31,7 +34,13 @@ const {
 	lang,
 	setOGTypeArticle,
 	headings = [],
+	alternates,
 } = Astro.props;
+const locale = getLocaleFromPath(Astro.url.pathname);
+const pageAlternates = alternates ?? [{ locale, url: Astro.url.pathname }];
+const switchUrl = (language: Locale) =>
+	pageAlternates.find((alternate) => alternate.locale === language)?.url ??
+	localeUrl(language);
 const hasBannerCredit =
 	siteConfig.banner.enable && siteConfig.banner.credit.enable;
 const hasBannerLink = !!siteConfig.banner.credit.url;
@@ -41,19 +50,19 @@ const mainPanelTop = siteConfig.banner.enable
 	: "5.5rem";
 ---
 
-<Layout title={title} banner={banner} description={description} lang={lang} setOGTypeArticle={setOGTypeArticle}>
+<Layout title={title} banner={banner} description={description} lang={lang} setOGTypeArticle={setOGTypeArticle} alternates={pageAlternates}>
 
 <!-- Navbar -->
 <slot slot="head" name="head"></slot>
 <div id="top-row" class="z-50 pointer-events-none relative transition-all duration-700 max-w-[var(--page-width)] px-0 md:px-4 mx-auto" class:list={[""]}>
     <div id="navbar-wrapper" class="pointer-events-auto sticky top-0 transition-all">
-        <Navbar></Navbar>
+        <Navbar alternates={pageAlternates}></Navbar>
     </div>
 </div>
 
 <!-- Banner -->
 {siteConfig.banner.enable && <div id="banner-wrapper" class={`absolute z-10 w-full transition duration-700 overflow-hidden`} style={`top: -${BANNER_HEIGHT_EXTEND}vh`}>
-    <ImageWrapper id="banner" alt="Banner image of the blog" class:list={["object-cover h-full transition duration-700 opacity-0 scale-105"]}
+    <ImageWrapper id="banner" alt={locale === "en" ? "Blog banner" : "博客横幅"} class:list={["object-cover h-full transition duration-700 opacity-0 scale-105"]}
                   src={siteConfig.banner.src} position={siteConfig.banner.position}
     >
     </ImageWrapper>
@@ -67,7 +76,7 @@ const mainPanelTop = siteConfig.banner.enable
     mx-auto gap-4 px-0 md:px-4"
         >
             <!-- Banner image credit -->
-            {hasBannerCredit && <a href={siteConfig.banner.credit.url} id="banner-credit" target="_blank" rel="noopener" aria-label="Visit image source"
+            {hasBannerCredit && <a href={siteConfig.banner.credit.url} id="banner-credit" target="_blank" rel="noopener" aria-label={locale === "en" ? "Visit image source" : "查看图片来源"}
                                    class:list={["group onload-animation transition-all absolute flex justify-center items-center rounded-full " +
                                    "px-3 right-4 -top-[3.25rem] bg-black/60 hover:bg-black/70 h-9", {"hover:pr-9 active:bg-black/80": hasBannerLink}]}
             >
@@ -83,6 +92,7 @@ const mainPanelTop = siteConfig.banner.enable
             <SideBar class="mb-4 row-start-2 row-end-3 col-span-2 lg:row-start-1 lg:row-end-2 lg:col-span-1 lg:max-w-[17.5rem] onload-animation" headings={headings}></SideBar>
 
             <main id="swup-container" class="transition-swup-fade col-span-2 lg:col-span-1 overflow-hidden">
+                <language-route-data hidden data-zh-href={switchUrl("zh")} data-en-href={switchUrl("en")}></language-route-data>
                 <div id="content-wrapper" class="onload-animation">
                     <!-- the overflow-hidden here prevent long text break the layout-->
                     <!-- make id different from windows.swup global property -->
@@ -123,3 +133,29 @@ const mainPanelTop = siteConfig.banner.enable
     </div>
 </div>
 </Layout>
+
+<script>
+import { getLocaleFromPath } from "../i18n/locales";
+
+// Each Swup content replacement connects a fresh element and updates the persistent navbar.
+class LanguageRouteData extends HTMLElement {
+    connectedCallback() {
+        for (const link of document.querySelectorAll<HTMLAnchorElement>("[data-language-link]")) {
+            const href = link.dataset.languageLink === "en" ? this.dataset.enHref : this.dataset.zhHref;
+            if (href) link.href = href;
+        }
+        // Authored links between languages must also reload the translated site chrome.
+        const currentLocale = getLocaleFromPath(window.location.pathname);
+        for (const link of document.querySelectorAll<HTMLAnchorElement>("a[href]")) {
+            const target = new URL(link.href, window.location.origin);
+            if (target.origin === window.location.origin && /^\/(zh|en)(\/|$)/.test(target.pathname)
+                && getLocaleFromPath(target.pathname) !== currentLocale) {
+                link.setAttribute("data-no-swup", "");
+            }
+        }
+    }
+}
+if (!customElements.get("language-route-data")) {
+    customElements.define("language-route-data", LanguageRouteData);
+}
+</script>

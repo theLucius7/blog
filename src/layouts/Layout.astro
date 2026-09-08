@@ -8,6 +8,7 @@ import "../styles/markdown-extend.styl";
 
 import ConfigCarrier from "@components/ConfigCarrier.astro";
 import { profileConfig, siteConfig } from "@/config";
+import { getHtmlLang, getLocaleFromPath, type Locale } from "@/i18n/locales";
 import {
 	AUTO_MODE,
 	BANNER_HEIGHT,
@@ -20,7 +21,7 @@ import {
 } from "../constants/constants";
 import { defaultFavicons } from "../constants/icon";
 import type { Favicon } from "../types/config";
-import { pathsEqual, url } from "../utils/url-utils";
+import { localeUrl, pathsEqual, url } from "../utils/url-utils";
 import "katex/dist/katex.css";
 
 interface Props {
@@ -29,14 +30,28 @@ interface Props {
 	description?: string;
 	lang?: string;
 	setOGTypeArticle?: boolean;
+	alternates?: Array<{ locale: Locale; url: string }>;
 }
 
-let { title, banner, description, lang, setOGTypeArticle } = Astro.props;
+let {
+	title,
+	banner,
+	description,
+	setOGTypeArticle,
+	alternates = [],
+} = Astro.props;
+const locale = getLocaleFromPath(Astro.url.pathname);
+const siteLang = getHtmlLang(locale);
+const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin);
+const pageAlternates = [
+	{ locale, url: Astro.url.pathname },
+	...alternates.filter((alternate) => alternate.locale !== locale),
+];
 
 // apply a class to the body element to decide the height of the banner, only used for initial page load
 // Swup can update the body for each page visit, but it's after the page transition, causing a delay for banner height change
 // so use Swup hooks instead to change the height immediately when a link is clicked
-const isHomePage = pathsEqual(Astro.url.pathname, url("/"));
+const isHomePage = pathsEqual(Astro.url.pathname, localeUrl(locale));
 
 // defines global css variables
 // why doing this in Layout instead of GlobalStyles: https://github.com/withastro/astro/issues/6728#issuecomment-1502203757
@@ -62,12 +77,6 @@ if (title) {
 const favicons: Favicon[] =
 	siteConfig.favicon.length > 0 ? siteConfig.favicon : defaultFavicons;
 
-// const siteLang = siteConfig.lang.replace('_', '-')
-if (!lang) {
-	lang = `${siteConfig.lang}`;
-}
-const siteLang = lang.replace("_", "-");
-
 const bannerOffsetByPosition = {
 	top: `${BANNER_HEIGHT_EXTEND}vh`,
 	center: `${BANNER_HEIGHT_EXTEND / 2}vh`,
@@ -88,9 +97,14 @@ const bannerOffset =
 		<meta charset="UTF-8" />
 		<meta name="description" content={description || pageTitle}>
 		<meta name="author" content={profileConfig.name}>
+        <link rel="canonical" href={canonical} />
+        {pageAlternates.map(alternate => (
+            <link rel="alternate" hreflang={getHtmlLang(alternate.locale)} href={new URL(alternate.url, Astro.site ?? Astro.url.origin)} />
+        ))}
 
 		<meta property="og:site_name" content={siteConfig.title}>
-		<meta property="og:url" content={Astro.url}>
+		<meta property="og:url" content={canonical}>
+		<meta property="og:locale" content={siteLang.replace("-", "_")}>
 		<meta property="og:title" content={pageTitle}>
 		<meta property="og:description" content={description || pageTitle}>
 		{setOGTypeArticle ? (
@@ -100,7 +114,7 @@ const bannerOffset =
         )}
 
 		<meta name="twitter:card" content="summary_large_image">
-		<meta property="twitter:url" content={Astro.url}>
+		<meta property="twitter:url" content={canonical}>
 		<meta name="twitter:title" content={pageTitle}>
 		<meta name="twitter:description" content={description || pageTitle}>
 
@@ -150,7 +164,7 @@ const bannerOffset =
 
 		<slot name="head"></slot>
 
-		<link rel="alternate" type="application/rss+xml" title={profileConfig.name} href={new URL(url("rss.xml"), Astro.site)}/>
+		<link rel="alternate" type="application/rss+xml" title={`${siteConfig.title} (${siteLang})`} href={new URL(localeUrl(locale, "/rss.xml"), Astro.site)}/>
 
 	</head>
 	<body class=" min-h-screen transition " class:list={[{"lg:is-home": isHomePage, "enable-banner": enableBanner}]}
@@ -208,7 +222,8 @@ import {
 	// ClickScrollPlugin
 } from 'overlayscrollbars';
 import {getHue, getStoredTheme, setHue, setTheme} from "../utils/setting-utils";
-import {pathsEqual, url} from "../utils/url-utils";
+import {localeUrl, pathsEqual} from "../utils/url-utils";
+import { getLocaleFromPath } from "../i18n/locales";
 import {
 	BANNER_HEIGHT,
 	BANNER_HEIGHT_HOME,
@@ -325,7 +340,7 @@ function initCustomScrollbar() {
 
 		const container = document.createElement('div');
 		container.className = 'katex-display-container';
-		container.setAttribute('aria-label', 'scrollable container for formulas');
+		container.setAttribute('aria-label', document.documentElement.lang.startsWith('zh') ? '可滚动的公式' : 'Scrollable formula');
 
 		element.parentNode.insertBefore(container, element);
 		container.appendChild(element);
@@ -413,7 +428,8 @@ const setup = () => {
 	window.swup.hooks.on('visit:start', (visit: {to: {url: string}}) => {
 		// change banner height immediately when a link is clicked
 		const bodyElement = document.querySelector('body')
-		if (pathsEqual(visit.to.url, url('/'))) {
+		const destination = new URL(visit.to.url, window.location.origin);
+		if (pathsEqual(destination.pathname, localeUrl(getLocaleFromPath(destination.pathname)))) {
 			bodyElement!.classList.add('lg:is-home');
 		} else {
 			bodyElement!.classList.remove('lg:is-home');

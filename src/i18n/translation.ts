@@ -39,10 +39,13 @@ const map: { [key: string]: Translation } = {
 };
 
 export function getTranslation(lang: string): Translation {
-	return map[lang.toLowerCase()] || defaultTranslation;
+	const normalized = lang.toLowerCase().replaceAll("-", "_");
+	return map[normalized === "zh" ? "zh_cn" : normalized] || defaultTranslation;
 }
 
-export function i18n(key: I18nKey): string {
-	const lang = siteConfig.lang || "en";
+export function i18n(
+	key: I18nKey,
+	lang: string = siteConfig.lang || "zh",
+): string {
 	return getTranslation(lang)[key];
 }
