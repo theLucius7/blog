@@ -36,5 +36,7 @@ jobs:
         run: pnpm lint
       - name: Check Astro and TypeScript
         run: pnpm check
+      - name: Verify bilingual routes and content isolation
+        run: pnpm test:i18n
       - name: Build site and search index
         run: pnpm build

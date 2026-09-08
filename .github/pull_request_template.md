@@ -9,6 +9,7 @@
 - [ ] `pnpm lint`
 - [ ] `pnpm check`
 - [ ] `pnpm build`
+- [ ] 双语路由、文章筛选或搜索改动已运行 `pnpm test:i18n`
 - [ ] 已预览受影响的页面、链接或文章
 
 ## 截图或补充说明

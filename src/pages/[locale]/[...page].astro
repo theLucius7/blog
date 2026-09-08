@@ -1,0 +1,57 @@
+---
+import { type CollectionEntry } from "astro:content";
+import Pagination from "@components/control/Pagination.astro";
+import EmptyPosts from "@components/EmptyPosts.astro";
+import PostPage from "@components/PostPage.astro";
+import { PAGE_SIZE } from "@constants/constants";
+import { locales } from "@i18n/locales";
+import MainGridLayout from "@layouts/MainGridLayout.astro";
+import { getSortedPosts, type PostAlternate } from "@utils/content-utils";
+import { localeUrl } from "@utils/url-utils";
+import type { GetStaticPaths, Page } from "astro";
+
+export const getStaticPaths = (async ({ paginate }) => {
+	const collections = await Promise.all(
+		locales.map(async (locale) => ({
+			locale,
+			posts: await getSortedPosts(locale),
+		})),
+	);
+	return collections.flatMap(({ locale, posts }) =>
+		paginate(posts, { pageSize: PAGE_SIZE, params: { locale } }).map(
+			(route) => ({
+				...route,
+				props: {
+					...route.props,
+					alternates: (route.props.page.currentPage === 1
+						? locales
+						: [locale]
+					).map((alternateLocale) => ({
+						locale: alternateLocale,
+						url: localeUrl(
+							alternateLocale,
+							route.props.page.currentPage === 1
+								? "/"
+								: `/${route.props.page.currentPage}/`,
+						),
+					})),
+				},
+			}),
+		),
+	);
+}) satisfies GetStaticPaths;
+
+interface Props {
+	page: Page<CollectionEntry<"posts">>;
+	alternates: PostAlternate[];
+}
+
+const { page, alternates } = Astro.props;
+---
+
+<MainGridLayout alternates={alternates}>
+    {page.data.length > 0 ? <>
+        <PostPage page={page} />
+        <Pagination class="mx-auto onload-animation" page={page} style={`animation-delay: calc(var(--content-delay) + ${page.data.length * 50}ms)`} />
+    </> : <EmptyPosts />}
+</MainGridLayout>

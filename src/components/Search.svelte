@@ -1,19 +1,41 @@
 <script lang="ts">
 import I18nKey from "@i18n/i18nKey";
+import type { Locale } from "@i18n/locales";
 import { i18n } from "@i18n/translation";
 import Icon from "@iconify/svelte";
-import { url } from "@utils/url-utils.ts";
 import { onMount } from "svelte";
 import type { SearchResult } from "@/global";
+
+export let locale: Locale = "zh";
 
 let keywordDesktop = "";
 let keywordMobile = "";
 let result: SearchResult[] = [];
 let isSearching = false;
+let searchFailed = false;
 let pagefindLoaded = false;
 let initialized = false;
+let activeKeyword = "";
+let activeIsDesktop = true;
+let searchVersion = 0;
 
 const isDevelopment = import.meta.env.DEV;
+
+$: messages =
+	locale === "en"
+		? {
+				loading: "Searching…",
+				empty: "No results found.",
+				error: "Search is unavailable. Please refresh and try again.",
+				development:
+					"Search is available after building and previewing the site.",
+			}
+		: {
+				loading: "正在搜索…",
+				empty: "没有找到相关内容。",
+				error: "搜索暂时不可用，请刷新后重试。",
+				development: "开发预览不提供搜索，请构建后预览。",
+			};
 
 const togglePanel = () => {
 	const panel = document.getElementById("search-panel");
@@ -32,41 +54,54 @@ const setPanelVisibility = (show: boolean, isDesktop: boolean): void => {
 };
 
 const search = async (keyword: string, isDesktop: boolean): Promise<void> => {
-	if (!keyword) {
+	const version = ++searchVersion;
+	const query = keyword.trim();
+	activeKeyword = query;
+	activeIsDesktop = isDesktop;
+	result = [];
+	searchFailed = false;
+	if (!query) {
+		isSearching = false;
 		setPanelVisibility(false, isDesktop);
-		result = [];
 		return;
 	}
 
+	isSearching = !isDevelopment;
+	setPanelVisibility(true, isDesktop);
 	if (!initialized) {
 		return;
 	}
-
-	isSearching = true;
 
 	try {
 		let searchResults: SearchResult[] = [];
 
 		if (import.meta.env.PROD && pagefindLoaded && window.pagefind) {
-			const response = await window.pagefind.search(keyword);
+			// Pagefind selects its language index from <html lang> on initialization.
+			const response = await window.pagefind.search(query);
 			searchResults = await Promise.all(
 				response.results.map((item) => item.data()),
 			);
-		} else if (import.meta.env.DEV) {
-			searchResults = [];
-		} else {
-			searchResults = [];
-			console.error("Pagefind is not available in production environment.");
+		} else if (!isDevelopment) {
+			throw new Error("Pagefind is not available.");
 		}
 
-		result = searchResults;
-		setPanelVisibility(result.length > 0 || isDevelopment, isDesktop);
+		if (version !== searchVersion) return;
+		// A missing language index makes Pagefind fall back to another language.
+		// Keep results in the current /zh/ or /en/ route even in that case.
+		result = searchResults.filter((item) => {
+			const target = new URL(item.url, window.location.origin);
+			return (
+				target.origin === window.location.origin &&
+				target.pathname.split("/").filter(Boolean)[0] === locale
+			);
+		});
 	} catch (error) {
+		if (version !== searchVersion) return;
 		console.error("Search error:", error);
 		result = [];
-		setPanelVisibility(false, isDesktop);
+		searchFailed = true;
 	} finally {
-		isSearching = false;
+		if (version === searchVersion) isSearching = false;
 	}
 };
 
@@ -77,46 +112,27 @@ onMount(() => {
 			typeof window !== "undefined" &&
 			!!window.pagefind &&
 			typeof window.pagefind.search === "function";
-		console.log("Pagefind status on init:", pagefindLoaded);
-		if (keywordDesktop) search(keywordDesktop, true);
-		if (keywordMobile) search(keywordMobile, false);
+		if (activeKeyword) search(activeKeyword, activeIsDesktop);
 	};
 
 	if (import.meta.env.DEV) {
 		initializeSearch();
 	} else {
-		document.addEventListener("pagefindready", () => {
-			console.log("Pagefind ready event received.");
-			initializeSearch();
-		});
-		document.addEventListener("pagefindloaderror", () => {
-			console.warn(
-				"Pagefind load error event received. Search functionality will be limited.",
-			);
-			initializeSearch(); // Initialize with pagefindLoaded as false
-		});
+		document.addEventListener("pagefindready", initializeSearch);
+		document.addEventListener("pagefindloaderror", initializeSearch);
 
 		// Fallback in case events are not caught or pagefind is already loaded by the time this script runs
-		setTimeout(() => {
-			if (!initialized) {
-				console.log("Fallback: Initializing search after timeout.");
-				initializeSearch();
-			}
-		}, 2000); // Adjust timeout as needed
+		const timeout = setTimeout(() => {
+			if (!initialized) initializeSearch();
+		}, 2000);
+		return () => {
+			clearTimeout(timeout);
+			document.removeEventListener("pagefindready", initializeSearch);
+			document.removeEventListener("pagefindloaderror", initializeSearch);
+			searchVersion++;
+		};
 	}
 });
-
-$: if (initialized) {
-	(async () => {
-		await search(keywordDesktop, true);
-	})();
-}
-
-$: if (initialized) {
-	(async () => {
-		await search(keywordMobile, false);
-	})();
-}
 </script>
 
 <!-- search bar for desktop view -->
@@ -125,14 +141,15 @@ $: if (initialized) {
       dark:bg-white/5 dark:hover:bg-white/10 dark:focus-within:bg-white/10
 ">
     <Icon icon="material-symbols:search" class="absolute text-[1.25rem] pointer-events-none ml-3 transition my-auto text-black/30 dark:text-white/30"></Icon>
-    <input placeholder="{i18n(I18nKey.search)}" bind:value={keywordDesktop} on:focus={() => search(keywordDesktop, true)}
+    <input type="search" placeholder={i18n(I18nKey.search, locale)} aria-label={i18n(I18nKey.search, locale)} aria-controls="search-results"
+           bind:value={keywordDesktop} on:input={(event) => search(event.currentTarget.value, true)} on:focus={() => search(keywordDesktop, true)}
            class="transition-all pl-10 text-sm bg-transparent outline-0
          h-full w-40 active:w-60 focus:w-60 text-black/50 dark:text-white/50"
     >
 </div>
 
 <!-- toggle btn for phone/tablet view -->
-<button on:click={togglePanel} aria-label="Search Panel" id="search-switch"
+<button on:click={togglePanel} aria-label={i18n(I18nKey.search, locale)} aria-controls="search-panel" id="search-switch"
         class="btn-plain scale-animation lg:!hidden rounded-lg w-11 h-11 active:scale-90">
     <Icon icon="material-symbols:search" class="text-[1.25rem]"></Icon>
 </button>
@@ -147,18 +164,26 @@ top-20 left-4 md:left-[unset] right-4 shadow-2xl rounded-2xl p-2">
       dark:bg-white/5 dark:hover:bg-white/10 dark:focus-within:bg-white/10
   ">
         <Icon icon="material-symbols:search" class="absolute text-[1.25rem] pointer-events-none ml-3 transition my-auto text-black/30 dark:text-white/30"></Icon>
-        <input placeholder="{i18n(I18nKey.search)}" bind:value={keywordMobile}
+        <input type="search" placeholder={i18n(I18nKey.search, locale)} aria-label={i18n(I18nKey.search, locale)} aria-controls="search-results"
+               bind:value={keywordMobile} on:input={(event) => search(event.currentTarget.value, false)} on:focus={() => search(keywordMobile, false)}
                class="pl-10 absolute inset-0 text-sm bg-transparent outline-0
                focus:w-60 text-black/50 dark:text-white/50"
         >
     </div>
 
-    {#if isDevelopment}
-        <p class="px-3 py-3 text-sm text-50" role="status">开发预览不提供搜索，请构建后预览。</p>
-    {/if}
+    <div id="search-results" aria-live="polite" aria-busy={isSearching}>
+        {#if isDevelopment}
+            <p class="px-3 py-3 text-sm text-50" role="status">{messages.development}</p>
+        {:else if isSearching}
+            <p class="px-3 py-3 text-sm text-50" role="status">{messages.loading}</p>
+        {:else if searchFailed}
+            <p class="px-3 py-3 text-sm text-50" role="status">{messages.error}</p>
+        {:else if activeKeyword && result.length === 0}
+            <p class="px-3 py-3 text-sm text-50" role="status">{messages.empty}</p>
+        {/if}
 
-    <!-- search results -->
-    {#each result as item}
+        <!-- search results -->
+        {#each result as item}
         <a href={item.url}
            class="transition first-of-type:mt-2 lg:first-of-type:mt-0 group block
        rounded-xl text-lg px-3 py-2 hover:bg-[var(--btn-plain-bg-hover)] active:bg-[var(--btn-plain-bg-active)]">
@@ -169,7 +194,8 @@ top-20 left-4 md:left-[unset] right-4 shadow-2xl rounded-2xl p-2">
                 {@html item.excerpt}
             </div>
         </a>
-    {/each}
+        {/each}
+    </div>
 </div>
 
 <style>

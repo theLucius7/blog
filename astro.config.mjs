@@ -27,7 +27,20 @@ import { pluginCustomCopyButton } from "./src/plugins/expressive-code/custom-cop
 // https://astro.build/config
 export default defineConfig({
 	site: "https://blog.lucius7.cn/",
+	output: "static",
 	trailingSlash: "always",
+	i18n: {
+		locales: ["zh", "en"],
+		defaultLocale: "zh",
+		routing: {
+			prefixDefaultLocale: true,
+			redirectToDefaultLocale: false,
+		},
+	},
+	redirects: {
+		"/about": "/zh/about/",
+		"/archive": "/zh/archive/",
+	},
 	integrations: [
 		tailwind({
 			nesting: true,
@@ -39,7 +52,7 @@ export default defineConfig({
 			// when the Tailwind class `transition-all` is used
 			containers: ["main", "#toc"],
 			smoothScrolling: true,
-			cache: true,
+			cache: false,
 			preload: true,
 			accessibility: true,
 			updateHead: true,
@@ -99,7 +112,10 @@ export default defineConfig({
 			}
 		}),
         svelte(),
-		sitemap(),
+		sitemap({
+			// Redirect aliases are excluded; page-level hreflang only lists real translations.
+			filter: (page) => /^\/(zh|en)(\/|$)/.test(new URL(page).pathname),
+		}),
 	],
 	markdown: {
 		remarkPlugins: [

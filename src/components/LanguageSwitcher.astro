@@ -1,0 +1,27 @@
+---
+import { getHtmlLang, type Locale, locales } from "@/i18n/locales";
+import { localeUrl } from "@/utils/url-utils";
+
+interface Props {
+	locale: Locale;
+	alternates: Array<{ locale: Locale; url: string }>;
+}
+
+const { locale, alternates } = Astro.props;
+---
+<nav aria-label={locale === "en" ? "Language" : "语言"} class="flex shrink-0 items-center gap-0.5">
+    {locales.map(language => (
+        <a
+            data-language-link={language}
+            data-no-swup
+            href={alternates.find(alternate => alternate.locale === language)?.url ?? localeUrl(language)}
+            lang={getHtmlLang(language)}
+            hreflang={getHtmlLang(language)}
+            aria-label={language === "en" ? "Switch to English" : "切换为中文"}
+            aria-current={language === locale ? "true" : undefined}
+            class:list={["btn-plain rounded-lg h-10 px-2 text-sm font-bold", {
+                "!hidden sm:!flex text-[var(--primary)]": language === locale,
+            }]}
+        >{language === "en" ? "EN" : "中文"}</a>
+    ))}
+</nav>

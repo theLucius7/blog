@@ -13,7 +13,7 @@ function getDate() {
 }
 
 const args = process.argv.slice(2)
-const usage = "Usage: pnpm new-post <filename>"
+const usage = "Usage: pnpm new-post [zh/|en/]<filename>\nExamples: pnpm new-post zh/my-post, pnpm new-post en/my-post/index\nWithout a language prefix, posts are created in zh/."
 
 if (args.length === 1 && ["--help", "-h"].includes(args[0])) {
   console.log(usage)
@@ -33,10 +33,18 @@ try {
     path.win32.parse(fileName).root !== "" ||
     fileName.includes("\\") ||
     fileName.split("/").includes("..") ||
+    fileName.split("/").some(segment => !segment || segment === ".") ||
     fileName.endsWith("/") ||
     [".", ".."].includes(path.basename(fileName))
   ) {
     throw new Error("Use a relative post path inside src/content/posts")
+  }
+
+  const segments = fileName.split("/")
+  const locale = ["zh", "en"].includes(segments[0]) ? segments.shift() : "zh"
+  fileName = segments.join("/")
+  if (!fileName || fileName === "index" || fileName === "index.md") {
+    throw new Error("Provide an article name after the language, such as en/my-post")
   }
 
   const extension = path.extname(fileName)
@@ -46,10 +54,18 @@ try {
   if (!extension) fileName += ".md"
 
   const targetDir = path.resolve("src/content/posts")
-  const fullPath = path.resolve(targetDir, fileName)
+  const fullPath = path.resolve(targetDir, locale, fileName)
   const relativePath = path.relative(targetDir, fullPath)
   if (relativePath.startsWith(`..${path.sep}`) || path.isAbsolute(relativePath)) {
     throw new Error("Post paths must stay inside src/content/posts")
+  }
+
+  const stem = fileName.replace(/\.md$/, "")
+  const conflictingPath = stem.endsWith("/index")
+    ? path.resolve(targetDir, locale, `${stem.slice(0, -6)}.md`)
+    : path.resolve(targetDir, locale, stem, "index.md")
+  if (fs.existsSync(conflictingPath)) {
+    throw new Error(`Another article already uses this URL: ${conflictingPath}`)
   }
 
   fs.mkdirSync(targetDir, { recursive: true })
@@ -69,14 +85,14 @@ try {
   }
 
   const content = `---
-title: ${JSON.stringify(args[0])}
+title: ${JSON.stringify(stem.replace(/\/index$/, ""))}
 published: ${getDate()}
 description: ''
 image: ''
 tags: []
 category: ''
 draft: true
-lang: zh_CN
+lang: ${locale === "zh" ? "zh_CN" : "en"}
 ---
 `
 

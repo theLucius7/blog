@@ -13,7 +13,7 @@ pnpm install --frozen-lockfile
 pnpm dev
 ```
 
-文章位于 `src/content/posts/`，站点与社交链接配置位于 `src/config.ts`。
+中英文文章分别位于 `src/content/posts/zh/` 与 `src/content/posts/en/`，站点与社交链接配置位于 `src/config.ts`。
 文章字段、图片与草稿见 [写作指南](docs/WRITING.zh-CN.md)，提交与上线步骤见 [部署说明](docs/DEPLOYMENT.zh-CN.md)，数学公式见 [LaTeX 说明](docs/LATEX.zh-CN.md)。
 
 ## 提交修改
@@ -42,6 +42,8 @@ pnpm build
 Dependabot PR 也应经过检查与页面验证，不因来自机器人或检查通过就盲目自动合并。
 
 Expressive Code 的核心、Astro 集成和插件由 Dependabot 放在同一组更新，避免只升级核心而保留另一套旧渲染器。KaTeX 更新需核对 `rehype-katex` 使用的渲染版本与直接依赖提供的 CSS、字体是否一致。当前文章目录为空，涉及 Markdown、公式或代码块的升级应使用临时文章验证实际渲染，验证后删除临时文件。
+
+双语路由、内容筛选、搜索或新建脚本的修改还需运行 `pnpm test:i18n`，并用 `pnpm preview` 分别检查 `/zh/`、`/en/`：同一检索词只返回当前语言内容，跨语言切换更新整页界面，没有译文时能到目标语言首页。该测试在临时目录生成文章，不会修改真实文章。
 
 ## PR 处理流程
 
